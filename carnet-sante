@@ -1,0 +1,2541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1B4353">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Carnet de Santé & Diagnostic – Le Coup de Main Services</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-petrol: #1B4353;
+    --brand-petrol-light: #33555F;
+    --brand-sage: #6E8D85;
+    --brand-gold: #C5A059;
+    --brand-gold-bright: #D4AF37;
+    --brand-paper: #ECE8DC;
+    --brand-paper-card: #F7F5EE;
+    --brand-red: #A8382B;
+    --brand-ok: #2e8b57;
+    --brand-fix: #1d4ed8;
+    --brand-watch: #d97706;
+    --brand-ko: #b91c1c;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--brand-paper);
+    background-image: radial-gradient(rgba(27, 67, 83, 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+    color: #18282E;
+    margin: 0;
+    padding: 0;
+    overscroll-behavior-y: contain;
+    border-left: 10px solid var(--brand-sage);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    width: 3px;
+    background: linear-gradient(to bottom, #C5A059, #e6c883, #C5A059);
+    z-index: 40;
+    pointer-events: none;
+  }
+
+  .font-poster {
+    font-family: 'Oswald', 'Segoe UI', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .font-script {
+    font-family: 'Kaushan Script', cursive;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .spen-canvas {
+    touch-action: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    cursor: crosshair;
+  }
+
+  .item-row {
+    border-left: 6px solid #cbd5e1;
+    transition: all 0.15s ease;
+  }
+  .item-row.st-ok { border-left-color: var(--brand-ok); background-color: #f0fdf4; }
+  .item-row.st-fix { border-left-color: var(--brand-fix); background-color: #eff6ff; }
+  .item-row.st-watch { border-left-color: var(--brand-watch); background-color: #fffbeb; }
+  .item-row.st-ko { border-left-color: var(--brand-ko); background-color: #fef2f2; }
+  .item-row.st-na { border-left-color: #94a3b8; opacity: 0.6; }
+
+  .gold-border {
+    border: 1.5px solid var(--brand-gold);
+  }
+
+  @media print {
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border-left: none !important;
+      font-size: 11.5pt;
+    }
+    body::before { display: none !important; }
+    .no-print { display: none !important; }
+    .print-only { display: block !important; }
+    #print-area {
+      display: block !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    .page-break-inside-avoid {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    h2, h3 {
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- ================= SVG BADGE TEMPLATE (HIDDEN DEFS FOR REUSE) ================= -->
+<svg class="hidden" aria-hidden="true">
+  <symbol id="blason-lecoupdemain" viewBox="0 0 220 220">
+    <defs>
+      <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E5C882"/>
+        <stop offset="50%" stop-color="#C5A059"/>
+        <stop offset="100%" stop-color="#9A7432"/>
+      </linearGradient>
+      <linearGradient id="petrolGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#27566B"/>
+        <stop offset="100%" stop-color="#14323E"/>
+      </linearGradient>
+    </defs>
+    <!-- Outer Gold Ring -->
+    <circle cx="110" cy="110" r="102" fill="url(#petrolGrad)" stroke="url(#goldGrad)" stroke-width="6"/>
+    <circle cx="110" cy="110" r="92" fill="none" stroke="#ECE8DC" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+    <!-- Inner Cream Sunburst Top -->
+    <path d="M 38 95 A 72 72 0 0 1 182 95 Z" fill="#ECE8DC"/>
+    <!-- French Tricolor Flags left & right -->
+    <g transform="translate(46, 56) rotate(-18)">
+      <rect x="0" y="0" width="9" height="18" fill="#002395"/>
+      <rect x="9" y="0" width="9" height="18" fill="#FFFFFF"/>
+      <rect x="18" y="0" width="9" height="18" fill="#ED2939"/>
+      <rect x="0" y="0" width="27" height="18" fill="none" stroke="#1B4353" stroke-width="1.2"/>
+    </g>
+    <g transform="translate(148, 48) rotate(18)">
+      <rect x="0" y="0" width="9" height="18" fill="#002395"/>
+      <rect x="9" y="0" width="9" height="18" fill="#FFFFFF"/>
+      <rect x="18" y="0" width="9" height="18" fill="#ED2939"/>
+      <rect x="0" y="0" width="27" height="18" fill="none" stroke="#1B4353" stroke-width="1.2"/>
+    </g>
+    <!-- Hand + Red Wrench/Tool Icon in Top Crest -->
+    <g transform="translate(88, 26)">
+      <path d="M28 8 L42 22 L20 44 L6 30 Z" fill="#A8382B" stroke="#1B4353" stroke-width="2"/>
+      <circle cx="35" cy="15" r="9" fill="#A8382B" stroke="#1B4353" stroke-width="2"/>
+      <path d="M33 10 L40 17 L36 21 L29 14 Z" fill="#ECE8DC"/>
+      <!-- Stylized Hand holding tool -->
+      <path d="M12 34 C12 25, 28 25, 30 34 L28 48 L10 48 Z" fill="#E2B993" stroke="#1B4353" stroke-width="2"/>
+    </g>
+    <!-- Tilted Ribbon Banner "Le Coup de Main" -->
+    <g transform="rotate(-7, 110, 108)">
+      <rect x="8" y="82" width="204" height="48" rx="8" fill="url(#petrolGrad)" stroke="url(#goldGrad)" stroke-width="4"/>
+      <rect x="13" y="87" width="194" height="38" rx="5" fill="none" stroke="#ECE8DC" stroke-width="1" opacity="0.5"/>
+      <text x="110" y="115" text-anchor="middle" fill="#ECE8DC" font-family="'Kaushan Script', cursive, serif" font-size="28" font-weight="bold">Le Coup de Main</text>
+    </g>
+    <!-- Subtitle Box "SERVICES À DOMICILE" -->
+    <rect x="52" y="138" width="116" height="22" rx="4" fill="#14323E" stroke="url(#goldGrad)" stroke-width="2"/>
+    <text x="110" y="153" text-anchor="middle" fill="#ECE8DC" font-family="'Oswald', sans-serif" font-size="11.5" font-weight="700" letter-spacing="1">SERVICES À DOMICILE</text>
+    <!-- Bottom Arc Text "ARTISAN DE CONFIANCE" -->
+    <text x="110" y="182" text-anchor="middle" fill="#E5C882" font-family="'Oswald', sans-serif" font-size="12.5" font-weight="700" letter-spacing="1.5">★ ARTISAN DE CONFIANCE ★</text>
+  </symbol>
+</svg>
+
+<!-- ================= TOP NAVIGATION BAR (NO PRINT) ================= -->
+<header class="no-print bg-[#1B4353] text-[#ECE8DC] shadow-lg sticky top-0 z-30 border-b-2 border-[#C5A059]">
+  <div class="max-w-6xl mx-auto px-3 sm:px-5 py-2.5 flex flex-wrap items-center justify-between gap-3">
+    <!-- Brand Identity with Official Crest -->
+    <div class="flex items-center gap-3 cursor-pointer" onclick="app.showClientList()">
+      <div class="relative group" title="Cliquez sur le bouton Logo à droite pour charger votre image logo.jpg si souhaité">
+        <img id="hdr-custom-logo" class="w-14 h-14 rounded-full object-cover border-2 border-[#C5A059] shadow hidden" alt="Logo Le Coup de Main">
+        <svg id="hdr-svg-logo" class="w-14 h-14 drop-shadow">
+          <use href="#blason-lecoupdemain"></use>
+        </svg>
+      </div>
+      <div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="font-poster font-bold text-xl sm:text-2xl tracking-wide text-white uppercase">Julien Cohen</span>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-[#C5A059] text-[#1B4353] font-extrabold uppercase tracking-wider">Artisan multiservices & multitechniques</span>
+        </div>
+        <p class="text-xs text-[#ECE8DC]/90 mt-0.5">
+          Votre artisan de confiance à domicile • Zone des 3 Frontières • <span class="text-[#E5C882] font-semibold">06 46 66 42 22</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Top Quick Actions -->
+    <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+      <button id="btn-back-clients" onclick="app.showClientList()" class="hidden px-3.5 py-2 rounded-xl bg-[#C5A059] text-[#1B4353] hover:bg-[#d8b46c] text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow transition">
+        <i class="fas fa-users"></i> <span>Fichier Clients</span>
+      </button>
+
+      <label title="Importer votre image logo.jpg personnelle pour les rapports" class="px-2.5 py-2 rounded-xl bg-[#27566B] hover:bg-[#336b84] text-xs font-semibold flex items-center gap-1.5 border border-[#C5A059]/40 cursor-pointer transition">
+        <i class="fas fa-shield-alt text-[#E5C882]"></i> <span class="hidden lg:inline">Logo perso</span>
+        <input type="file" accept="image/*" class="hidden" onchange="app.uploadCustomLogo(event)">
+      </label>
+
+      <button onclick="app.exportBackup()" title="Sauvegarder toutes les fiches clients (Fichier JSON)" class="px-3 py-2 rounded-xl bg-[#27566B] hover:bg-[#336b84] text-xs font-semibold flex items-center gap-1.5 border border-[#C5A059]/40 transition">
+        <i class="fas fa-download text-[#E5C882]"></i> <span class="hidden sm:inline">Sauvegarder</span>
+      </button>
+
+      <label title="Restaurer une sauvegarde JSON" class="px-3 py-2 rounded-xl bg-[#27566B] hover:bg-[#336b84] text-xs font-semibold flex items-center gap-1.5 border border-[#C5A059]/40 cursor-pointer transition">
+        <i class="fas fa-upload text-[#25D366]"></i> <span class="hidden sm:inline">Importer</span>
+        <input type="file" accept=".json" class="hidden" onchange="app.importBackup(event)">
+      </label>
+    </div>
+  </div>
+</header>
+
+<!-- ================= MAIN WORKSPACE ================= -->
+<main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-5 no-print">
+
+  <!-- ================= VIEW 1: CLIENT DIRECTORY (CRM) ================= -->
+  <section id="view-clients" class="space-y-4">
+
+    <!-- Poster Hero Banner -->
+    <div class="bg-[#F7F5EE] rounded-2xl p-4 sm:p-5 shadow-sm gold-border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="text-xs font-bold uppercase tracking-widest text-[#6E8D85]">SASU Le Coup de Main Services • 22a rue du Rhin, 68680 Kembs</div>
+        <h1 class="font-poster text-2xl sm:text-3xl font-bold text-[#1B4353] uppercase">
+          Dépannage & Services — Carnets de Santé Clients
+        </h1>
+        <p class="text-xs sm:text-sm text-stone-600">
+          🔑 Serrurerie & Urgence • ⚙️ Volets Roulants • 🚰 Petite Plomberie • 💡 Électricité d'appoint • 🧰 Petits travaux & Bricolage
+        </p>
+      </div>
+      <button onclick="app.openClientModal()" class="px-5 py-3.5 rounded-xl bg-[#1B4353] hover:bg-[#122e3a] text-[#ECE8DC] font-bold shadow-md border border-[#C5A059] flex items-center justify-center gap-2 text-base transition active:scale-95 whitespace-nowrap">
+        <i class="fas fa-user-plus text-[#C5A059]"></i> + Nouveau Client / Chantier
+      </button>
+    </div>
+
+    <!-- Instant Search & Subscription Filters -->
+    <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm border border-[#C5A059]/50 space-y-3">
+      <div class="relative">
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-[#1B4353] text-lg"></i>
+        <input id="search-client" type="text" oninput="app.renderClientList()" placeholder="Recherche immédiate : Nom du client, commune (Kembs, Saint-Louis...), taille cylindre (30x40), boîte à clés..." class="w-full pl-11 pr-10 py-3.5 rounded-xl border border-stone-300 bg-white focus:border-[#1B4353] focus:ring-2 focus:ring-[#1B4353]/20 outline-none text-base font-medium">
+        <button onclick="document.getElementById('search-client').value='';app.renderClientList()" class="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1">
+          <i class="fas fa-times-circle text-lg"></i>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="client-filters">
+        <button onclick="app.setClientFilter('all')" data-f="all" class="flt-btn px-4 py-2 rounded-full text-sm font-bold bg-[#1B4353] text-white whitespace-nowrap transition shadow-sm">
+          Tous les dossiers
+        </button>
+        <button onclick="app.setClientFilter('res19')" data-f="res19" class="flt-btn px-4 py-2 rounded-full text-sm font-bold bg-white text-[#1B4353] border border-stone-300 hover:bg-stone-100 whitespace-nowrap flex items-center gap-1.5 transition">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#2e8b57]"></span> Pack Résidentiel (19€/m)
+        </button>
+        <button onclick="app.setClientFilter('pro40')" data-f="pro40" class="flt-btn px-4 py-2 rounded-full text-sm font-bold bg-white text-[#1B4353] border border-stone-300 hover:bg-stone-100 whitespace-nowrap flex items-center gap-1.5 transition">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#C5A059]"></span> Pack Business & Airbnb (40€/m)
+        </button>
+        <button onclick="app.setClientFilter('ponctuel')" data-f="ponctuel" class="flt-btn px-4 py-2 rounded-full text-sm font-bold bg-white text-[#1B4353] border border-stone-300 hover:bg-stone-100 whitespace-nowrap transition">
+          Dépannage Ponctuel
+        </button>
+      </div>
+    </div>
+
+    <!-- Client Cards Grid -->
+    <div id="clients-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+  </section>
+
+
+  <!-- ================= VIEW 2: ACTIVE CLIENT RECORD (CARNET DE SANTÉ) ================= -->
+  <section id="view-record" class="hidden space-y-4">
+
+    <!-- Client Active Header Banner -->
+    <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm border-l-8 border-[#1B4353] gold-border">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 id="hdr-client-name" class="font-poster text-2xl font-bold text-[#1B4353] uppercase">Nom du Client</h2>
+            <span id="hdr-sub-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Abonnement</span>
+            <span id="hdr-zone-badge" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-[#1B4353] border border-stone-300">Zone</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-stone-700">
+            <span id="hdr-client-address"><i class="fas fa-map-marker-alt text-[#A8382B] mr-1"></i> Adresse</span>
+            <a id="hdr-client-phone" href="#" class="text-[#1B4353] font-bold hover:underline"><i class="fas fa-phone-alt text-[#2e8b57] mr-1"></i> Téléphone</a>
+            <span id="hdr-access-quick" class="bg-[#1B4353] text-[#ECE8DC] px-2.5 py-0.5 rounded font-mono font-semibold text-xs"></span>
+          </div>
+        </div>
+
+        <!-- Subscription Quick Counters (Visites 1/2 & 30 min offertes) -->
+        <div class="flex flex-wrap items-center gap-2">
+          <div id="hdr-sub-controls" class="flex items-center gap-2.5 bg-white px-3.5 py-2 rounded-xl border border-[#C5A059]">
+            <label class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#1B4353] cursor-pointer select-none">
+              <input type="checkbox" id="chk-v1" onchange="app.toggleSubCounter('v1', this.checked)" class="w-4 h-4 accent-[#1B4353] rounded">
+              Visite 1/2
+            </label>
+            <span class="text-stone-300">|</span>
+            <label class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#1B4353] cursor-pointer select-none">
+              <input type="checkbox" id="chk-v2" onchange="app.toggleSubCounter('v2', this.checked)" class="w-4 h-4 accent-[#1B4353] rounded">
+              Visite 2/2
+            </label>
+            <span class="text-stone-300">|</span>
+            <label class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-800 cursor-pointer select-none" title="30 min de main-d'œuvre offertes / an (Pack Résidentiel)">
+              <input type="checkbox" id="chk-30m" onchange="app.toggleSubCounter('mo30Used', this.checked)" class="w-4 h-4 accent-emerald-600 rounded">
+              30min offertes utilisées
+            </label>
+          </div>
+
+          <button onclick="app.openClientModal(app.currentClientId)" class="p-2.5 rounded-xl bg-white border border-stone-300 hover:bg-stone-100 text-[#1B4353]" title="Modifier les coordonnées du client">
+            <i class="fas fa-pen"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 BIG TABLET NAVIGATION TABS -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#1B4353]/10 p-1.5 rounded-2xl border border-[#C5A059]/40">
+      <button onclick="app.switchTab('refs')" data-tab="refs" class="tab-btn py-3.5 px-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition bg-[#1B4353] text-white shadow">
+        <i class="fas fa-key text-[#C5A059]"></i> <span>1. Réf & Accès</span>
+      </button>
+      <button onclick="app.switchTab('diag')" data-tab="diag" class="tab-btn py-3.5 px-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition bg-[#F7F5EE] text-[#1B4353] hover:bg-white">
+        <i class="fas fa-clipboard-check text-[#2e8b57]"></i> <span>2. Diagnostic 5 Pôles</span>
+      </button>
+      <button onclick="app.switchTab('rap')" data-tab="rap" class="tab-btn py-3.5 px-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition bg-[#F7F5EE] text-[#1B4353] hover:bg-white">
+        <i class="fas fa-file-signature text-[#A8382B]"></i> <span>3. Rapport & Sign.</span>
+      </button>
+      <button onclick="app.switchTab('dev')" data-tab="dev" class="tab-btn py-3.5 px-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition bg-[#F7F5EE] text-[#1B4353] hover:bg-white">
+        <i class="fas fa-euro-sign text-[#C5A059]"></i> <span>4. Devis Renalto</span>
+      </button>
+    </div>
+
+    <!-- ================= TAB 1: RÉFÉRENCES TECHNIQUES & ACCÈS (5 PÔLES DE L'AFFICHE) ================= -->
+    <div id="tab-refs" class="space-y-4">
+      <div class="bg-[#1B4353] text-[#ECE8DC] rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow border border-[#C5A059]">
+        <div>
+          <h3 class="font-poster text-xl font-bold uppercase tracking-wide flex items-center gap-2 text-white">
+            <i class="fas fa-id-card-alt text-[#C5A059]"></i> Mémoire Technique du Logement (Zéro Perte de Temps)
+          </h3>
+          <p class="text-xs sm:text-sm text-[#ECE8DC]/90">Toutes les côtes et références de la maison sous les yeux dès que tu gares le fourgon.</p>
+        </div>
+        <button onclick="app.addEquipmentCard()" class="px-4 py-2.5 rounded-xl bg-[#C5A059] text-[#1B4353] font-extrabold text-sm whitespace-nowrap hover:bg-[#d8b46c] transition flex items-center gap-2 shadow">
+          <i class="fas fa-camera"></i> + Photo / Croquis S-Pen
+        </button>
+      </div>
+
+      <!-- Technical Reference Cards Aligned with the 5 Poster Specialties -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Pôle 1: Serrurerie & Dépannage d'urgence -->
+        <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+          <div class="flex items-center justify-between border-b border-[#C5A059]/40 pb-2">
+            <h4 class="font-poster font-bold text-[#1B4353] uppercase flex items-center gap-2 text-lg">
+              <i class="fas fa-key text-[#A8382B]"></i> 1. Serrurerie & Sécurité
+            </h4>
+            <span class="text-xs bg-[#1B4353] text-[#ECE8DC] px-2.5 py-0.5 rounded font-semibold">Accès & Cylindres</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Cylindre Porte d'Entrée (ex: 30x40 débrayable)</label>
+              <input type="text" data-ref="cylindreEntree" oninput="app.saveRefField(this)" placeholder="Ex: 30x40 mm / Bouton int." class="w-full p-2.5 rounded-lg border border-stone-300 font-bold text-[#1B4353] bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Marque / Crémone Multipoints & Axe</label>
+              <input type="text" data-ref="marqueSerrure" oninput="app.saveRefField(this)" placeholder="Ex: Ferco 5 pts / Vachette Axe 50mm" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#A8382B] mb-1">Code Boîte à Clés / Serrure Connectée</label>
+              <input type="text" data-ref="codeBoiteCles" oninput="app.saveRefField(this)" placeholder="Ex: MasterLock #4589 / Nuki Pro" class="w-full p-2.5 rounded-lg border border-[#C5A059] bg-amber-50/70 font-mono font-bold text-[#1B4353]">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Cylindres Secondaires (Garage, Cave, Portail)</label>
+              <input type="text" data-ref="cylindresSecondaires" oninput="app.saveRefField(this)" placeholder="Ex: Garage 30x30 / Cave demi-cylindre 30x10" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pôle 2: Volets Roulants -->
+        <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+          <div class="flex items-center justify-between border-b border-[#C5A059]/40 pb-2">
+            <h4 class="font-poster font-bold text-[#1B4353] uppercase flex items-center gap-2 text-lg">
+              <i class="fas fa-cog text-[#1B4353]"></i> 2. Volets Roulants & Ouvrants
+            </h4>
+            <span class="text-xs bg-[#1B4353] text-[#ECE8DC] px-2.5 py-0.5 rounded font-semibold">Méca & Motorisation</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Marque Moteurs & Protocole Radio</label>
+              <input type="text" data-ref="moteurVolet" oninput="app.saveRefField(this)" placeholder="Ex: Somfy RTS / Somfy io / Bubendorff" class="w-full p-2.5 rounded-lg border border-stone-300 font-bold text-[#1B4353] bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Tube d'enroulement & Attaches Tablier</label>
+              <input type="text" data-ref="axeVolet" oninput="app.saveRefField(this)" placeholder="Ex: Octo Ø60mm / Verrous rigides Clicksur" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Manœuvre manuelle (Sangle / Treuil / Cardan)</label>
+              <input type="text" data-ref="manoeuvreVolet" oninput="app.saveRefField(this)" placeholder="Ex: Sangle 14mm / Treuil carré 7mm" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Ferrures Fenêtres Oscillo-battantes</label>
+              <input type="text" data-ref="ferruresFenetres" oninput="app.saveRefField(this)" placeholder="Ex: Roto NT / Maco / Siegenia" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pôle 3: Petite Plomberie -->
+        <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+          <div class="flex items-center justify-between border-b border-[#C5A059]/40 pb-2">
+            <h4 class="font-poster font-bold text-[#1B4353] uppercase flex items-center gap-2 text-lg">
+              <i class="fas fa-faucet text-cyan-700"></i> 3. Petite Plomberie & Sanitaires
+            </h4>
+            <span class="text-xs bg-[#1B4353] text-[#ECE8DC] px-2.5 py-0.5 rounded font-semibold">Eau & Robinetterie</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div>
+              <label class="block text-xs font-bold text-cyan-900 mb-1">Emplacement Vanne d'Arrêt Générale</label>
+              <input type="text" data-ref="vanneArret" oninput="app.saveRefField(this)" placeholder="Ex: Cave pied d'escalier / Placard entrée" class="w-full p-2.5 rounded-lg border border-cyan-400 bg-cyan-50/50 font-bold text-[#1B4353]">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Chasse d'eau WC / Bâti-support</label>
+              <input type="text" data-ref="mecanismeWC" oninput="app.saveRefField(this)" placeholder="Ex: Geberit Sigma / Siamp Optima 49" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Chauffe-eau & Groupe de sécurité</label>
+              <input type="text" data-ref="chauffeEau" oninput="app.saveRefField(this)" placeholder="Ex: Ballon Atlantic 200L (2022) / Groupe 3/4" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Robinetterie / Mitigeurs / Siphons</label>
+              <input type="text" data-ref="robinetterieRef" oninput="app.saveRefField(this)" placeholder="Ex: Grohe Eurosmart / Siphon Ø40" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pôles 4 & 5: Électricité d'appoint & Petits travaux -->
+        <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+          <div class="flex items-center justify-between border-b border-[#C5A059]/40 pb-2">
+            <h4 class="font-poster font-bold text-[#1B4353] uppercase flex items-center gap-2 text-lg">
+              <i class="fas fa-lightbulb text-amber-500"></i> 4. Élec d'appoint & 5. Bricolage
+            </h4>
+            <span class="text-xs bg-[#1B4353] text-[#ECE8DC] px-2.5 py-0.5 rounded font-semibold">Appareillage & Pose</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Tableau Élec / Gamme Prises & Inter.</label>
+              <input type="text" data-ref="tableauElec" oninput="app.saveRefField(this)" placeholder="Ex: Tableau Hager / Prises Legrand Céliane" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white font-bold text-[#1B4353]">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Type de Murs / Chevilles & Année (>2 ans)</label>
+              <input type="text" data-ref="anneeLogement" oninput="app.saveRefField(this)" placeholder="Ex: Placo Molly + Brique / 1998 (TVA 10%)" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-[#1B4353] mb-1">Notes Terrain (Stationnement fourgon, Digicode, Chiens, Luminaires/Ampoules...)</label>
+              <input type="text" data-ref="notesAcces" oninput="app.saveRefField(this)" placeholder="Ex: Cour privée devant garage ok, spot GU10 4000K salon, détecteur fumée couloir..." class="w-full p-2.5 rounded-lg border border-stone-300 bg-white">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Visual Reference Cards (S-Pen Sketches & Photos) -->
+      <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h4 class="font-poster font-bold text-[#1B4353] uppercase text-lg flex items-center gap-2">
+              <i class="fas fa-pen-nib text-[#A8382B]"></i> Photos cotées & Croquis Techniques au Stylet S-Pen
+            </h4>
+            <p class="text-xs text-stone-600">Prends en photo un cylindre, une plaque signalétique de volet ou un raccord et note les dimensions au S-Pen directement dessus.</p>
+          </div>
+          <button onclick="app.addEquipmentCard()" class="px-4 py-2 rounded-xl bg-[#1B4353] text-[#ECE8DC] text-xs sm:text-sm font-bold hover:bg-[#122e3a] border border-[#C5A059] transition">
+            + Ajouter une fiche photo / croquis
+          </button>
+        </div>
+
+        <div id="custom-equip-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </div>
+    </div>
+
+
+    <!-- ================= TAB 2: DIAGNOSTIC 5 PÔLES ================= -->
+    <div id="tab-diag" class="hidden space-y-4">
+
+      <!-- Category / Room Selector Bar -->
+      <div class="bg-[#F7F5EE] rounded-2xl p-3.5 shadow-sm gold-border space-y-3">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-[#1B4353]">Les 5 Pôles d'Expertise & Pièces du Logement :</span>
+          <div class="flex items-center gap-2 text-xs flex-wrap">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">✅ Bon</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">🛠️ Réglé sur place (Préventif)</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">⚠️ À prévoir</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-100 text-red-800 font-bold">🔴 Urgent</span>
+          </div>
+        </div>
+
+        <div id="diag-chips" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
+      </div>
+
+      <!-- Active Inspection Category Content -->
+      <div id="diag-room-container" class="space-y-3"></div>
+
+      <!-- Add Custom Room / Pole Card -->
+      <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border">
+        <h4 class="font-bold text-sm text-[#1B4353] mb-2"><i class="fas fa-plus-circle text-[#A8382B] mr-1"></i> Ajouter une pièce ou annexe spécifique au diagnostic</h4>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input id="new-room-name" type="text" placeholder="Ex: Chambre 2, Studio Airbnb R+1, Garage, Cave..." class="flex-1 p-3 rounded-xl border border-stone-300 bg-white text-sm">
+          <select id="new-room-tpl" class="p-3 rounded-xl border border-stone-300 text-sm bg-white font-bold text-[#1B4353]"></select>
+          <button onclick="app.addDiagRoom()" class="px-5 py-3 rounded-xl bg-[#1B4353] text-[#ECE8DC] font-bold text-sm hover:bg-[#122e3a] border border-[#C5A059] transition">
+            Ajouter la zone
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================= TAB 3: RAPPORT CLIENT, CGV & SIGNATURE STYLET ================= -->
+    <div id="tab-rap" class="hidden space-y-4">
+
+      <!-- Action Bar -->
+      <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 class="font-poster text-xl font-bold text-[#1B4353] uppercase">Rapport Officiel « Artisan de Confiance »</h3>
+          <p class="text-xs text-stone-600">Signez au stylet S-Pen ci-dessous, puis imprimez en PDF ou envoyez le récapitulatif WhatsApp en 1 clic.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="app.sendWhatsAppReport()" class="px-4 py-3 rounded-xl bg-[#25D366] hover:bg-[#1da851] text-white font-bold text-sm flex items-center gap-2 shadow transition">
+            <i class="fab fa-whatsapp text-lg"></i> Envoyer sur WhatsApp
+          </button>
+          <button onclick="window.print()" class="px-5 py-3 rounded-xl bg-[#1B4353] hover:bg-[#122e3a] text-[#ECE8DC] border border-[#C5A059] font-bold text-sm flex items-center gap-2 shadow transition">
+            <i class="fas fa-print text-[#C5A059]"></i> Imprimer / Enregistrer PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Legal Clauses from CGV Le Coup de Main Services -->
+      <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+        <h4 class="font-bold text-[#1B4353] text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
+          <i class="fas fa-file-contract text-[#A8382B]"></i> Conformité Légale & CGV (SASU Le Coup de Main Services)
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-stone-300 bg-white cursor-pointer">
+            <input type="checkbox" id="cgv-keep-parts" onchange="app.saveLegalFlag('keepParts', this.checked)" class="mt-1 w-4 h-4 accent-[#1B4353]">
+            <span><b>Conservation des pièces (Art. 4.4 CGV) :</b> Le client souhaite conserver les pièces et matériels usagés remplacés lors de l'intervention.</span>
+          </label>
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-stone-300 bg-white cursor-pointer">
+            <input type="checkbox" id="cgv-id-verified" onchange="app.saveLegalFlag('idVerified', this.checked)" class="mt-1 w-4 h-4 accent-[#1B4353]">
+            <span><b>Serrurerie & Ouverture (Art. 8.1 CGV) :</b> Pièce d'identité et justificatif de droit d'occupation vérifiés avant intervention.</span>
+          </label>
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-red-300 bg-red-50/50 cursor-pointer md:col-span-2">
+            <input type="checkbox" id="cgv-urgent-waiver" onchange="app.saveLegalFlag('urgentWaiver', this.checked)" class="mt-1 w-4 h-4 accent-red-600">
+            <span><b>Dépannage d'Urgence (Art. 7.2 CGV / Art. L.221-28 Code Conso) :</b> Le client sollicite expressément l'exécution immédiate de travaux d'urgence (ouverture de porte, sécurisation, fuite active) et renonce à son droit de rétractation pour ces travaux.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Stylus Signature Pad -->
+      <div class="bg-[#F7F5EE] rounded-2xl p-4 shadow-sm gold-border space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-[#1B4353] text-base flex items-center gap-2">
+              <i class="fas fa-signature text-[#A8382B]"></i> Signature du Client au Stylet S-Pen (« Lu et approuvé »)
+            </h4>
+            <p class="text-xs text-stone-500">Écran verrouillé contre le défilement sous la paume : signez directement avec le stylet Samsung.</p>
+          </div>
+          <button onclick="app.clearSignature()" class="px-3 py-1.5 rounded-lg bg-white border border-stone-300 text-xs font-bold text-[#1B4353] hover:bg-stone-100">
+            <i class="fas fa-eraser mr-1"></i> Effacer
+          </button>
+        </div>
+        <canvas id="sig-canvas" class="spen-canvas w-full h-44 border-2 border-dashed border-[#1B4353] rounded-xl bg-white block"></canvas>
+      </div>
+
+      <!-- Live Preview of the Printable Report -->
+      <div class="bg-[#6E8D85]/30 p-2 sm:p-4 rounded-2xl border border-[#6E8D85]">
+        <div class="text-xs font-extrabold uppercase text-[#1B4353] mb-2 px-1">Aperçu Fidèle du Rapport Client (Format A4 / PDF) :</div>
+        <div id="report-preview-box" class="bg-[#F7F5EE] rounded-xl p-5 sm:p-8 shadow-lg border-l-8 border-[#6E8D85] gold-border text-stone-900"></div>
+      </div>
+    </div>
+
+
+    <!-- ================= TAB 4: DEVIS & PONT RENALTO ================= -->
+    <div id="tab-dev" class="hidden space-y-4">
+      <div class="bg-[#F7F5EE] rounded-2xl p-4 sm:p-5 shadow-sm gold-border space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#C5A059]/40 pb-3">
+          <div>
+            <h3 class="font-poster text-xl font-bold text-[#1B4353] uppercase flex items-center gap-2">
+              <i class="fas fa-calculator text-[#A8382B]"></i> Chiffrage Automatique & Passerelle Renalto
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600">Forfait Arrivée selon Code Postal + Main-d'œuvre (60€ HT/h, 1ère heure indivisible + tranches de 15 min) + Fournitures.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="app.copyRenaltoText()" class="px-4 py-3 rounded-xl bg-stone-800 hover:bg-black text-white font-bold text-sm flex items-center gap-2 transition">
+              <i class="fas fa-copy text-[#C5A059]"></i> Copier le chiffrage
+            </button>
+            <a href="https://renalto.fr" target="_blank" rel="noopener" onclick="app.copyRenaltoText()" class="px-5 py-3 rounded-xl bg-[#1B4353] hover:bg-[#122e3a] text-[#ECE8DC] border border-[#C5A059] font-bold text-sm flex items-center gap-2 shadow transition">
+              <i class="fas fa-rocket text-[#C5A059]"></i> Copier & Ouvrir Renalto.fr
+            </a>
+          </div>
+        </div>
+
+        <!-- Quote Parameters Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-white p-3.5 rounded-xl border border-[#C5A059]/60 text-sm">
+          <div>
+            <label class="block text-xs font-bold text-[#1B4353] mb-1">Forfait Arrivée / Déplacement</label>
+            <select id="q-travel" onchange="app.saveQuoteCfg('travelMode', this.value)" class="w-full p-2.5 rounded-lg border border-stone-300 bg-[#F7F5EE] font-bold text-[#1B4353]">
+              <option value="auto">Auto selon CP Client</option>
+              <option value="z1">Zone 1 - 3 Frontières (50€ HT / 60€ TTC)</option>
+              <option value="z2">Zone 2 - Mulhouse/Sundgau (60€ HT / 72€ TTC)</option>
+              <option value="free">Inclus dans visite Abonnement (0€)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#1B4353] mb-1">Taux de TVA applicable</label>
+            <select id="q-tva" onchange="app.saveQuoteCfg('tvaRate', +this.value)" class="w-full p-2.5 rounded-lg border border-stone-300 bg-[#F7F5EE] font-bold text-[#1B4353]">
+              <option value="10">TVA 10% (Habitation > 2 ans)</option>
+              <option value="20">TVA 20% (Standard / Pro / Neuf)</option>
+              <option value="0">TVA 0% (Franchise / Autoliquidation)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col justify-center">
+            <label class="flex items-center gap-2 cursor-pointer font-bold text-[#1B4353] py-1">
+              <input type="checkbox" id="q-sat" onchange="app.saveQuoteCfg('saturday', this.checked)" class="w-4 h-4 accent-[#1B4353]">
+              <span>Majoration Samedi (+25% MO)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer font-bold text-[#A8382B] py-1">
+              <input type="checkbox" id="q-night" onchange="app.saveQuoteCfg('nightSun', this.checked)" class="w-4 h-4 accent-[#A8382B]">
+              <span>Urgence Nuit/Dimanche (+50%)</span>
+            </label>
+          </div>
+
+          <div class="flex flex-col justify-center">
+            <label class="flex items-center gap-2 cursor-pointer font-bold text-emerald-800 py-1">
+              <input type="checkbox" id="q-deduct30" onchange="app.saveQuoteCfg('deduct30m', this.checked)" class="w-4 h-4 accent-emerald-600">
+              <span>Déduire 30 min offertes (-30€ HT)</span>
+            </label>
+            <span class="text-[11px] text-stone-500">Avantage Pack Résidentiel 19€/mois</span>
+          </div>
+        </div>
+
+        <!-- Summary Totals Banner -->
+        <div id="quote-totals-bar" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+
+        <!-- Ready-to-copy Renalto Textarea -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-xs font-extrabold uppercase text-[#1B4353]">Texte prêt à coller dans Renalto :</label>
+            <span id="copy-toast" class="text-xs font-bold text-emerald-700 hidden">✅ Copié dans le presse-papier !</span>
+          </div>
+          <textarea id="renalto-txt" rows="14" class="w-full p-4 rounded-xl border border-stone-300 font-mono text-xs sm:text-sm bg-white outline-none"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- ================= PRINTABLE AREA ONLY ================= -->
+<div id="print-area" class="hidden print-only"></div>
+
+
+<!-- ================= MODAL 1: ADD / EDIT CLIENT ================= -->
+<div id="modal-client" class="no-print fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+  <div class="bg-[#F7F5EE] rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl gold-border space-y-4 my-8">
+    <div class="flex items-center justify-between border-b border-[#C5A059]/50 pb-3">
+      <h3 id="modal-client-title" class="font-poster text-2xl font-bold text-[#1B4353] uppercase">Nouveau Client / Carnet de Santé</h3>
+      <button onclick="app.closeClientModal()" class="text-stone-400 hover:text-stone-800 text-2xl leading-none">&times;</button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+      <div class="sm:col-span-2">
+        <label class="block font-bold text-[#1B4353] mb-1">Nom du Client / Conciergerie / Société *</label>
+        <input id="mc-name" type="text" placeholder="Ex: M. & Mme Meyer ou Airbnb Suite Bâle" class="w-full p-3 rounded-xl border border-stone-300 bg-white text-base font-bold text-[#1B4353]">
+      </div>
+
+      <div>
+        <label class="block font-bold text-[#1B4353] mb-1">Formule / Abonnement</label>
+        <select id="mc-sub" class="w-full p-3 rounded-xl border border-stone-300 bg-white font-bold text-[#1B4353]">
+          <option value="res19">🏠 Pack Résidentiel (19 € TTC / mois)</option>
+          <option value="pro40">⭐ Pack Business & Airbnb (40 € TTC / mois)</option>
+          <option value="ponctuel">🛠️ Dépannage Ponctuel (Hors abonnement)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-bold text-[#1B4353] mb-1">Téléphone (Mobile / WhatsApp)</label>
+        <input id="mc-phone" type="tel" placeholder="Ex: 06 12 34 56 78" class="w-full p-3 rounded-xl border border-stone-300 bg-white">
+      </div>
+
+      <div class="sm:col-span-2">
+        <label class="block font-bold text-[#1B4353] mb-1">Adresse d'intervention (Rue & Numéro)</label>
+        <input id="mc-addr" type="text" placeholder="Ex: 22a rue du Rhin" class="w-full p-3 rounded-xl border border-stone-300 bg-white">
+      </div>
+
+      <div>
+        <label class="block font-bold text-[#1B4353] mb-1">Code Postal (Calcul Zone Auto)</label>
+        <input id="mc-cp" type="text" maxlength="5" oninput="app.previewModalZone()" placeholder="Ex: 68680" class="w-full p-3 rounded-xl border border-stone-300 bg-white font-mono font-bold">
+      </div>
+
+      <div>
+        <label class="block font-bold text-[#1B4353] mb-1">Commune</label>
+        <input id="mc-city" type="text" placeholder="Ex: Kembs, Saint-Louis, Huningue..." class="w-full p-3 rounded-xl border border-stone-300 bg-white">
+      </div>
+
+      <div class="sm:col-span-2">
+        <div id="mc-zone-preview" class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold">
+          Saisissez un code postal pour vérifier la zone de déplacement.
+        </div>
+      </div>
+
+      <div class="sm:col-span-2">
+        <label class="block font-bold text-[#1B4353] mb-1">Email (Facturation / Envoi Rapport)</label>
+        <input id="mc-email" type="email" placeholder="client@email.fr" class="w-full p-3 rounded-xl border border-stone-300 bg-white">
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between pt-3 border-t border-[#C5A059]/40 gap-2">
+      <button id="btn-delete-client" onclick="app.deleteCurrentClient()" class="hidden px-4 py-2.5 rounded-xl bg-red-100 text-red-700 hover:bg-red-200 text-sm font-bold">
+        <i class="fas fa-trash-alt mr-1"></i> Supprimer
+      </button>
+      <div class="flex items-center gap-2 ml-auto">
+        <button onclick="app.closeClientModal()" class="px-4 py-2.5 rounded-xl border border-stone-300 bg-white text-stone-700 font-bold text-sm">Annuler</button>
+        <button onclick="app.saveClientFromModal()" class="px-6 py-2.5 rounded-xl bg-[#1B4353] text-[#ECE8DC] border border-[#C5A059] font-bold text-sm shadow hover:bg-[#122e3a]">Enregistrer le Client</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================= MODAL 2: S-PEN PHOTO ANNOTATION / CROQUIS COTÉ ================= -->
+<div id="modal-annotate" class="no-print fixed inset-0 bg-black/90 z-50 hidden flex flex-col justify-between p-2 sm:p-4">
+  <div class="bg-[#1B4353] text-white rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 shadow-lg border border-[#C5A059]">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-pen-fancy text-[#C5A059]"></i>
+      <span class="font-bold text-sm sm:text-base">Atelier Stylet S-Pen : Annoter la photo ou tracer une cote</span>
+    </div>
+    <div class="flex items-center gap-2 flex-wrap">
+      <button onclick="app.setPenColor('#A8382B')" class="w-7 h-7 rounded-full bg-[#A8382B] border-2 border-white shadow" title="Rouge Brique (Urgence / Cote)"></button>
+      <button onclick="app.setPenColor('#E5C882')" class="w-7 h-7 rounded-full bg-[#E5C882] border-2 border-white shadow" title="Or / Jaune (Mesure lisible)"></button>
+      <button onclick="app.setPenColor('#1B4353')" class="w-7 h-7 rounded-full bg-[#1B4353] border-2 border-white shadow" title="Bleu Pétrole"></button>
+      <button onclick="app.setPenColor('#22c55e')" class="w-7 h-7 rounded-full bg-green-500 border-2 border-white shadow" title="Vert (Validation)"></button>
+      <button onclick="app.setPenColor('#ffffff')" class="w-7 h-7 rounded-full bg-white border-2 border-stone-400 shadow" title="Blanc"></button>
+      <button onclick="app.clearAnnotationCanvas()" class="px-3 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-semibold ml-1">
+        <i class="fas fa-undo mr-1"></i> Réinitialiser
+      </button>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="app.closeAnnotateModal()" class="px-3 py-1.5 rounded-lg bg-stone-700 text-white text-xs sm:text-sm font-semibold">Annuler</button>
+      <button onclick="app.saveAnnotatedPhoto()" class="px-4 py-1.5 rounded-lg bg-[#C5A059] text-[#1B4353] text-xs sm:text-sm font-extrabold shadow">
+        <i class="fas fa-check mr-1"></i> Enregistrer le croquis
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-1 flex items-center justify-center overflow-hidden my-2">
+    <canvas id="annot-canvas" class="spen-canvas max-w-full max-h-[78vh] rounded-xl shadow-2xl border-2 border-[#C5A059] bg-white"></canvas>
+  </div>
+
+  <div class="text-center text-xs text-[#ECE8DC]">
+    Astuce Stylet S-Pen : Écris directement les cotes (ex: <span class="text-[#E5C882] font-mono">30 x 40 mm</span>) ou entoure la pièce à remplacer.
+  </div>
+</div>
+
+
+<!-- ================= CUSTOM CONFIRMATION DIALOG ================= -->
+<div id="modal-confirm" class="no-print fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-[#F7F5EE] rounded-2xl max-w-md w-full p-5 shadow-2xl gold-border space-y-4">
+    <h4 id="confirm-title" class="font-poster font-bold text-xl text-[#1B4353] uppercase">Confirmation</h4>
+    <p id="confirm-msg" class="text-sm text-stone-700"></p>
+    <div class="flex justify-end gap-2 pt-2">
+      <button onclick="app.closeConfirm()" class="px-4 py-2 rounded-xl border border-stone-300 bg-white text-sm font-bold">Annuler</button>
+      <button id="confirm-ok-btn" class="px-5 py-2 rounded-xl bg-[#A8382B] text-white text-sm font-bold">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/**
+ * APPLICATION METIER : LE COUP DE MAIN SERVICES — JULIEN COHEN
+ * Alignée sur les 5 pôles d'expertise de l'affiche officielle + Charte Bleu Pétrole / Or / Vert Sauge / Papier Crème
+ */
+
+const ZONE_1_CPS = ['68680', '68300', '68510', '68128', '68330', '68220', '68440', '68870', '68730', '68490', '68390', '68170'];
+const ZONE_2_CPS = ['68100', '68200', '68110', '68120', '68260', '68270', '68790', '68350', '68720', '68130', '68640', '68560', '68210', '68740'];
+
+// Les 5 pôles exacts de l'affiche de Julien Cohen
+const TEMPLATES = {
+  serrurerie: {
+    title: '🔑 Serrurerie & Dépannage d’urgence',
+    items: [
+      'Cylindre européen porte d’entrée (jeu, clé, panneton)',
+      'Serrure multipoints / crémone & souplesse tringlerie',
+      'Gâche centrale & gâches haut/bas (alignement pênes)',
+      'Paumelles / gonds & affaissement de l’ouvrant',
+      'Béquille / poignée, carré & vis pointeau',
+      'Boîte à clés / Serrure connectée (code & piles)',
+      'Porte de garage, portail & accès secondaires',
+      'Joint périphérique & seuils d’étanchéité'
+    ],
+    tags: [
+      'Lubrification PTFE cylindre effectuée',
+      'Réglage paumelles / redressage ouvrant',
+      'Ajustement gâche (limonage / serrage)',
+      'Resserage poignée & vis pointeau',
+      'Ouverture fine sans destruction',
+      'Cylindre usé à remplacer sur devis',
+      'Crémone multipoints dure à remplacer',
+      'Piles serrure connectée remplacées'
+    ]
+  },
+  volets: {
+    title: '⚙️ Volets Roulants & Ouvrants',
+    items: [
+      'Montée / descente et équilibrage des tabliers',
+      'Réglage des fins de course moteur (haut / bas)',
+      'Attaches tablier / verrous rigides sur tube octogonal',
+      'État des lames, coulisses latérales & tulipes d’entrée',
+      'Manœuvre manuelle (sangle, enrouleur, treuil, cardan)',
+      'Télécommandes radio / interrupteurs filaires',
+      'Fenêtres & baies vitrées (crémones oscillo-battantes)',
+      'Graissage ferrures & galets de compression'
+    ],
+    tags: [
+      'Réglage fins de course moteur effectué',
+      'Lubrification coulisses & tulipes silicone sec',
+      'Attache rigide tablier refixée / remplacée',
+      'Moteur tubulaire HS à remplacer sur devis',
+      'Condensateur moteur fatigué à remplacer',
+      'Sangle / enrouleur effiloché à changer',
+      'Treuil / sortie de caisson cassé',
+      'Réglage compression fenêtre oscillo-battante'
+    ]
+  },
+  plomberie: {
+    title: '🚰 Petite Plomberie & Sanitaires',
+    items: [
+      'Vanne d’arrêt générale (test fermeture & étanchéité)',
+      'Recherche de fuites apparentes sous évier / lavabo',
+      'Robinetterie & mitigeurs (mousseurs, cartouches, flexibles)',
+      'Siphons & écoulements (évier, vasque, douche)',
+      'Chasse d’eau WC (mécanisme & robinet flotteur)',
+      'Robinet d’arrêt WC & joint pipe d’évacuation',
+      'Groupe de sécurité chauffe-eau (test purge)',
+      'Joints silicone sanitaires (douche, baignoire, plan)'
+    ],
+    tags: [
+      'Manœuvre déblocage vanne d’arrêt générale',
+      'Détartrage mousseurs / aérateurs effectué',
+      'Nettoyage & resserrage siphon + joint',
+      'Joint fibre / torique remplacé sur place',
+      'Mécanisme chasse d’eau fuyard à remplacer',
+      'Robinet flotteur entartré à changer',
+      'Réfection joint silicone sanitaire anti-moisissure',
+      'Groupe de sécurité qui coule à remplacer'
+    ]
+  },
+  electricite: {
+    title: '💡 Électricité d’appoint',
+    items: [
+      'Tableau électrique (repérage & test différentiels)',
+      'Prises de courant (fixation murale & serrage borniers)',
+      'Interrupteurs, va-et-vient & boutons poussoirs',
+      'Luminaires intérieurs, spots LED & éclairages extérieurs',
+      'Détecteur avertisseur de fumée (DAAF - test pile)',
+      'Bouches VMC & ventilation (aspiration & propreté)',
+      'Recherche de panne franche circuit éclairage / prise'
+    ],
+    tags: [
+      'Refixation prise / interrupteur dans boîtier',
+      'Resserage bornier & contrôle connexion',
+      'Remplacement ampoule / spot LED effectué',
+      'Test DAAF OK + remplacement pile',
+      'Dépoussiérage bouche VMC effectué',
+      'Pose luminaire / applique murale à chiffrer',
+      'Interrupteur / prise cassée à remplacer'
+    ]
+  },
+  bricolage: {
+    title: '🧰 Petits travaux & Bricolage',
+    items: [
+      'Portes intérieures (rabotage, poignées, pênes)',
+      'Charnières & façades meubles cuisine / salle de bain',
+      'Tringles à rideaux, stores, cadres & miroirs',
+      'Étagères, patères & accessoires muraux',
+      'Seuils de portes, plinthes & barres de transition',
+      'Garde-corps, main courante & sécurisation escalier',
+      'Montage / ajustement mobilier & petits équipements'
+    ],
+    tags: [
+      'Réglage charnières portes meubles cuisine',
+      'Ajustement / graissage porte intérieure',
+      'Fixation murale cheville Molly / chimique',
+      'Recollage / refixation barre de seuil ou plinthe',
+      'Resserage main courante / garde-corps',
+      'Pose équipement à prévoir sur devis'
+    ]
+  },
+  piece_std: {
+    title: '🏠 Pièce / Annexe Supplémentaire',
+    items: [
+      'Porte, serrure & poignée',
+      'Fenêtre(s) & volet roulant',
+      'Prises, interrupteurs & éclairage',
+      'Point d’eau / radiateur',
+      'Murs, sol, plafond & équipements'
+    ],
+    tags: [
+      'Réglage préventif effectué sur place',
+      'Pièce détachée à commander',
+      'Travaux sur devis à prévoir'
+    ]
+  }
+};
+
+const STATUS_META = {
+  ok:    { icon: '✅', label: 'Bon état', short: 'Bon', rowCls: 'st-ok' },
+  fix:   { icon: '🛠️', label: 'Réglé sur place (Préventif)', short: 'Réglé', rowCls: 'st-fix' },
+  watch: { icon: '⚠️', label: 'À prévoir', short: 'À prévoir', rowCls: 'st-watch' },
+  ko:    { icon: '🔴', label: 'URGENT', short: 'URGENT', rowCls: 'st-ko' },
+  na:    { icon: '➖', label: 'Sans objet', short: 'N/A', rowCls: 'st-na' }
+};
+
+function esc(str) {
+  return String(str == null ? '' : str).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+function getZoneFromCP(cp) {
+  const clean = String(cp || '').trim();
+  if (ZONE_1_CPS.includes(clean)) {
+    return { code: 'z1', label: 'Zone 1 (3 Frontières ≤20km)', ht: 50, ttc: 60, badge: 'bg-emerald-100 text-emerald-900 border-emerald-400' };
+  }
+  if (ZONE_2_CPS.includes(clean)) {
+    return { code: 'z2', label: 'Zone 2 (Mulhouse/Sundgau)', ht: 60, ttc: 72, badge: 'bg-blue-100 text-blue-900 border-blue-400' };
+  }
+  return { code: 'other', label: 'Hors Zone Standard (>35km)', ht: 60, ttc: 72, badge: 'bg-amber-100 text-amber-900 border-amber-400' };
+}
+
+function createDefaultRooms() {
+  return [
+    { id: 'p_serr',  name: '🔑 Serrurerie & Urgence', tpl: 'serrurerie',  items: {}, note: '' },
+    { id: 'p_vol',   name: '⚙️ Volets Roulants',      tpl: 'volets',      items: {}, note: '' },
+    { id: 'p_plomb', name: '🚰 Petite Plomberie',     tpl: 'plomberie',   items: {}, note: '' },
+    { id: 'p_elec',  name: '💡 Électricité d’appoint',tpl: 'electricite', items: {}, note: '' },
+    { id: 'p_brico', name: '🧰 Petits travaux & Brico',tpl: 'bricolage',  items: {}, note: '' }
+  ];
+}
+
+function getDemoClients() {
+  return [
+    {
+      id: 'cli_demo_1',
+      name: 'Famille Meyer (Marc & Sophie)',
+      subType: 'res19',
+      phone: '06 46 66 42 22',
+      address: '18 rue du Rhin',
+      cp: '68680',
+      city: 'Kembs',
+      email: 'famille.meyer68@email.fr',
+      subCounters: { v1: true, v2: false, mo30Used: false },
+      refs: {
+        cylindreEntree: '30x40 mm Débrayable (Bouton int.)',
+        marqueSerrure: 'Crémone Ferco 5 points (Axe 50mm)',
+        codeBoiteCles: 'Portail : #2580',
+        cylindresSecondaires: 'Garage : 30x30 mm / Jardin : 35x35 mm',
+        moteurVolet: 'Somfy RTS Radio (Salon) + Sangles (Chambres)',
+        axeVolet: 'Tube Octo Ø60mm - Attaches rigides Clicksur',
+        manoeuvreVolet: 'Sangle 14mm blanche (Chambre 1 & 2)',
+        ferruresFenetres: 'Oscillo-battant Roto NT',
+        vanneArret: 'Sous-sol, mur côté compteur d’eau',
+        mecanismeWC: 'Geberit Sigma 12cm (RDC) / Siamp (Étage)',
+        chauffeEau: 'Ballon Thermor 200L (2022) - Groupe 3/4"',
+        robinetterieRef: 'Grohe Eurosmart (Cuisine & SDB)',
+        tableauElec: 'Hager 3 rangées / Appareillage Legrand Céliane',
+        anneeLogement: '2004 (> 2 ans : Éligible TVA 10%)',
+        notesAcces: 'Stationnement fourgon facile devant le garage. Chien très sociable.'
+      },
+      customEquip: [
+        {
+          id: 'eq_1',
+          title: 'Cylindre Porte Entrée (Cote 30x40)',
+          location: 'Entrée principale',
+          spec: 'Cylindre européen 30mm ext / 40mm int avec panneton standard.',
+          photo: ''
+        }
+      ],
+      rooms: [
+        {
+          id: 'p_serr', name: '🔑 Serrurerie & Urgence', tpl: 'serrurerie',
+          items: {
+            0: { s: 'fix', work: 'Lubrification PTFE cylindre effectuée + contrôle panneton', price: '', hours: 0 },
+            1: { s: 'ok' },
+            2: { s: 'fix', work: 'Ajustement gâche centrale (léger frottement hiver)', price: '', hours: 0 },
+            3: { s: 'ok' },
+            4: { s: 'ok' }
+          },
+          note: 'Porte d’entrée fluide après réglage préventif.'
+        },
+        {
+          id: 'p_vol', name: '⚙️ Volets Roulants', tpl: 'volets',
+          items: {
+            0: { s: 'ok' },
+            1: { s: 'ok' },
+            4: { s: 'watch', work: 'Sangle volet Chambre 1 effilochée : remplacement préventif conseillé avant rupture', price: '18', hours: 0.5 },
+            6: { s: 'fix', work: 'Lubrification coulisses & tulipes silicone sec', price: '', hours: 0 }
+          },
+          note: ''
+        },
+        {
+          id: 'p_plomb', name: '🚰 Petite Plomberie', tpl: 'plomberie',
+          items: {
+            0: { s: 'fix', work: 'Manœuvre déblocage vanne d’arrêt générale', price: '', hours: 0 },
+            2: { s: 'ok' },
+            4: { s: 'ok' }
+          },
+          note: ''
+        },
+        {
+          id: 'p_elec', name: '💡 Électricité d’appoint', tpl: 'electricite',
+          items: {
+            0: { s: 'ok' },
+            1: { s: 'fix', work: 'Refixation prise dans boîtier (Salon)', price: '', hours: 0 },
+            4: { s: 'ok' }
+          },
+          note: ''
+        },
+        {
+          id: 'p_brico', name: '🧰 Petits travaux & Brico', tpl: 'bricolage',
+          items: {
+            1: { s: 'fix', work: 'Réglage charnières portes meubles cuisine', price: '', hours: 0 }
+          },
+          note: ''
+        }
+      ],
+      curRoomId: 'p_serr',
+      legal: { keepParts: false, idVerified: true, urgentWaiver: false },
+      quoteCfg: { travelMode: 'free', tvaRate: 10, saturday: false, nightSun: false, deduct30m: true },
+      sig: '',
+      sigDate: '',
+      updatedAt: Date.now()
+    },
+    {
+      id: 'cli_demo_2',
+      name: 'Airbnb "Suite Bâle-Mulhouse" (Investisseur)',
+      subType: 'pro40',
+      phone: '06 46 66 42 22',
+      address: '42 Avenue de Bâle',
+      cp: '68300',
+      city: 'Saint-Louis',
+      email: 'conciergerie.3frontieres@email.fr',
+      subCounters: { v1: true, v2: true, mo30Used: false },
+      refs: {
+        cylindreEntree: '35x35 mm Haute Sécurité + Carte propriété',
+        marqueSerrure: 'Vachette 3 points A2P*',
+        codeBoiteCles: 'MasterLock #8841 (à droite boîte aux lettres) / Serrure Nuki',
+        cylindresSecondaires: 'Local ménage : 30x30 mm',
+        moteurVolet: 'Somfy io-homecontrol (Baie vitrée séjour)',
+        axeVolet: 'Octo Ø60 - Verrous Clicksur',
+        manoeuvreVolet: '100% Électrique radio',
+        ferruresFenetres: 'PVC Maco',
+        vanneArret: 'Placard entrée derrière le tableau électrique',
+        mecanismeWC: 'Bâti-support Grohe Rapid SL (Double touche)',
+        chauffeEau: 'Chauffe-eau plat Malicio 80L',
+        robinetterieRef: 'Hansgrohe',
+        tableauElec: 'Legrand Drivia 2 rangées / Spots GU10 3000K',
+        anneeLogement: '2015 (> 2 ans)',
+        notesAcces: 'Logement Airbnb : Rotation voyageurs entre 11h00 et 15h00. Toujours envoyer photo WhatsApp après passage.'
+      },
+      customEquip: [],
+      rooms: [
+        {
+          id: 'p_serr', name: '🔑 Serrurerie & Urgence', tpl: 'serrurerie',
+          items: {
+            0: { s: 'ok' },
+            5: { s: 'fix', work: 'Contrôle boîte à clés voyageurs + remplacement piles serrure connectée', price: '12', hours: 0 }
+          },
+          note: 'Accès 100% opérationnel pour les prochains voyageurs.'
+        },
+        {
+          id: 'p_vol', name: '⚙️ Volets Roulants', tpl: 'volets',
+          items: {
+            2: { s: 'ko', work: 'Attache rigide tablier baie vitrée cassée par un locataire : remplacement urgent', price: '35', hours: 1 }
+          },
+          note: ''
+        },
+        { id: 'p_plomb', name: '🚰 Petite Plomberie', tpl: 'plomberie', items: {}, note: '' },
+        { id: 'p_elec',  name: '💡 Électricité d’appoint', tpl: 'electricite', items: {}, note: '' },
+        { id: 'p_brico', name: '🧰 Petits travaux & Brico', tpl: 'bricolage', items: {}, note: '' }
+      ],
+      curRoomId: 'p_serr',
+      legal: { keepParts: false, idVerified: true, urgentWaiver: false },
+      quoteCfg: { travelMode: 'auto', tvaRate: 20, saturday: false, nightSun: false, deduct30m: false },
+      sig: '',
+      sigDate: '',
+      updatedAt: Date.now()
+    }
+  ];
+}
+
+const app = {
+  db: null,
+  clients: [],
+  customLogo: '',
+  currentClientId: null,
+  clientFilter: 'all',
+  activeTab: 'refs',
+  saveTimer: null,
+  annotState: { targetType: null, roomIdx: null, itemKey: null, photoIdx: null, eqIdx: null, color: '#A8382B', baseImg: null },
+
+  async init() {
+    this.injectPWAManifest();
+    this.db = await this.openDB();
+    await this.loadStoreData();
+    if (!this.clients || this.clients.length === 0) {
+      this.clients = getDemoClients();
+      this.persist();
+    }
+    this.applyCustomLogoUI();
+    this.populateRoomTemplatesSelect();
+    this.setupSignatureEvents();
+    this.setupAnnotationEvents();
+    this.renderClientList();
+  },
+
+  injectPWAManifest() {
+    const manifest = {
+      name: "Le Coup de Main Services – Carnet de Santé",
+      short_name: "Le Coup de Main",
+      start_url: ".",
+      display: "standalone",
+      background_color: "#ECE8DC",
+      theme_color: "#1B4353"
+    };
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+    document.head.appendChild(link);
+  },
+
+  openDB() {
+    return new Promise(resolve => {
+      try {
+        const req = indexedDB.open('LeCoupDeMainProDB_v2', 1);
+        req.onupgradeneeded = () => {
+          req.result.createObjectStore('store');
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+
+  loadStoreData() {
+    return new Promise(resolve => {
+      if (!this.db) return resolve();
+      try {
+        const tx = this.db.transaction('store', 'readonly');
+        const st = tx.objectStore('store');
+        const reqC = st.get('clients');
+        const reqL = st.get('customLogo');
+        reqC.onsuccess = () => {
+          if (Array.isArray(reqC.result)) this.clients = reqC.result;
+        };
+        reqL.onsuccess = () => {
+          if (reqL.result) this.customLogo = reqL.result;
+        };
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch (e) {
+        resolve();
+      }
+    });
+  },
+
+  persist() {
+    clearTimeout(this.saveTimer);
+    this.saveTimer = setTimeout(() => {
+      if (!this.db) return;
+      try {
+        const tx = this.db.transaction('store', 'readwrite');
+        const st = tx.objectStore('store');
+        st.put(this.clients, 'clients');
+        st.put(this.customLogo || '', 'customLogo');
+      } catch (e) {}
+    }, 180);
+  },
+
+  async uploadCustomLogo(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const dataUrl = await this.compressImage(file, 400);
+    if (dataUrl) {
+      this.customLogo = dataUrl;
+      this.persist();
+      this.applyCustomLogoUI();
+      if (this.activeTab === 'rap') this.updateReportHtml();
+    }
+  },
+
+  applyCustomLogoUI() {
+    const imgEl = document.getElementById('hdr-custom-logo');
+    const svgEl = document.getElementById('hdr-svg-logo');
+    if (this.customLogo) {
+      imgEl.src = this.customLogo;
+      imgEl.classList.remove('hidden');
+      svgEl.classList.add('hidden');
+    } else {
+      imgEl.classList.add('hidden');
+      svgEl.classList.remove('hidden');
+    }
+  },
+
+  getClient(id = this.currentClientId) {
+    return this.clients.find(c => c.id === id);
+  },
+
+  getActiveRoom() {
+    const c = this.getClient();
+    if (!c) return null;
+    return c.rooms.find(r => r.id === c.curRoomId) || c.rooms[0];
+  },
+
+  // ================= CLIENT LIST & CRM =================
+  setClientFilter(f) {
+    this.clientFilter = f;
+    document.querySelectorAll('.flt-btn').forEach(btn => {
+      const on = btn.dataset.f === f;
+      btn.className = on
+        ? 'flt-btn px-4 py-2 rounded-full text-sm font-bold bg-[#1B4353] text-white whitespace-nowrap flex items-center gap-1.5 transition shadow-sm'
+        : 'flt-btn px-4 py-2 rounded-full text-sm font-bold bg-white text-[#1B4353] border border-stone-300 hover:bg-stone-100 whitespace-nowrap flex items-center gap-1.5 transition';
+    });
+    this.renderClientList();
+  },
+
+  renderClientList() {
+    const q = (document.getElementById('search-client').value || '').toLowerCase().trim();
+    const grid = document.getElementById('clients-grid');
+
+    const filtered = this.clients.filter(c => {
+      if (this.clientFilter !== 'all' && c.subType !== this.clientFilter) return false;
+      if (!q) return true;
+      const hay = [
+        c.name, c.city, c.cp, c.address, c.phone,
+        c.refs?.cylindreEntree, c.refs?.marqueSerrure, c.refs?.moteurVolet, c.refs?.codeBoiteCles, c.refs?.tableauElec
+      ].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="md:col-span-2 bg-[#F7F5EE] rounded-2xl p-8 text-center gold-border">
+          <p class="text-stone-600 mb-3 font-medium">Aucun dossier client ne correspond à cette recherche.</p>
+          <button onclick="app.openClientModal()" class="px-5 py-2.5 rounded-xl bg-[#1B4353] text-[#ECE8DC] text-sm font-bold border border-[#C5A059]">+ Créer une fiche client</button>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(c => {
+      const z = getZoneFromCP(c.cp);
+      let subBadge = '';
+      if (c.subType === 'res19') {
+        subBadge = `<span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-400">🏠 Pack Résidentiel 19€/m</span>`;
+      } else if (c.subType === 'pro40') {
+        subBadge = `<span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#C5A059]/30 text-[#1B4353] border border-[#C5A059]">⭐ Pack Business & Airbnb 40€/m</span>`;
+      } else {
+        subBadge = `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-stone-200 text-stone-700">🛠️ Ponctuel</span>`;
+      }
+
+      let ko = 0, watch = 0, fix = 0;
+      (c.rooms || []).forEach(r => {
+        Object.values(r.items || {}).forEach(it => {
+          if (it.s === 'ko') ko++;
+          else if (it.s === 'watch') watch++;
+          else if (it.s === 'fix') fix++;
+        });
+      });
+
+      return `
+        <div onclick="app.openClientRecord('${c.id}')" class="bg-[#F7F5EE] rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md gold-border hover:border-[#1B4353] cursor-pointer transition flex flex-col justify-between gap-3">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="font-poster font-bold text-xl text-[#1B4353] uppercase leading-snug">${esc(c.name)}</h3>
+              ${subBadge}
+            </div>
+            <div class="text-xs sm:text-sm text-stone-700 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span><i class="fas fa-map-marker-alt text-[#A8382B] mr-1"></i>${esc(c.address || '')}, <b>${esc(c.cp)} ${esc(c.city)}</b></span>
+              <span class="px-2 py-0.5 rounded text-xs font-bold border ${z.badge}">${z.label} (${z.ttc}€ TTC)</span>
+            </div>
+
+            <!-- Instant Reference Preview on Card -->
+            <div class="grid grid-cols-2 gap-1.5 pt-1 text-xs bg-white p-2.5 rounded-xl border border-[#C5A059]/50">
+              <div class="truncate"><span class="text-stone-500">🔑 Cylindre :</span> <b class="text-[#1B4353]">${esc(c.refs?.cylindreEntree || '—')}</b></div>
+              <div class="truncate"><span class="text-stone-500">⚙️ Volets :</span> <b class="text-[#1B4353]">${esc(c.refs?.moteurVolet || '—')}</b></div>
+              <div class="truncate"><span class="text-stone-500">🚰 Vanne eau :</span> <b>${esc(c.refs?.vanneArret || '—')}</b></div>
+              <div class="truncate"><span class="text-stone-500">🔒 Code/Clés :</span> <b class="font-mono text-[#A8382B]">${esc(c.refs?.codeBoiteCles || '—')}</b></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-[#C5A059]/30 text-xs">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              ${c.subType !== 'ponctuel' ? `
+                <span class="px-2 py-0.5 rounded font-bold ${c.subCounters?.v1 ? 'bg-emerald-100 text-emerald-900' : 'bg-stone-200 text-stone-600'}">Visite 1 ${c.subCounters?.v1 ? '✓' : '○'}</span>
+                <span class="px-2 py-0.5 rounded font-bold ${c.subCounters?.v2 ? 'bg-emerald-100 text-emerald-900' : 'bg-stone-200 text-stone-600'}">Visite 2 ${c.subCounters?.v2 ? '✓' : '○'}</span>
+              ` : ''}
+              ${fix ? `<span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">🛠️ ${fix} réglé(s)</span>` : ''}
+              ${watch ? `<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">⚠️ ${watch} à prévoir</span>` : ''}
+              ${ko ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 font-bold">🔴 ${ko} urgent</span>` : ''}
+            </div>
+            <span class="font-extrabold text-[#1B4353] flex items-center gap-1">Ouvrir <i class="fas fa-chevron-right text-xs"></i></span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  showClientList() {
+    this.currentClientId = null;
+    document.getElementById('view-record').classList.add('hidden');
+    document.getElementById('view-clients').classList.remove('hidden');
+    document.getElementById('btn-back-clients').classList.add('hidden');
+    this.renderClientList();
+  },
+
+  openClientRecord(id) {
+    this.currentClientId = id;
+    const c = this.getClient();
+    if (!c) return;
+
+    document.getElementById('view-clients').classList.add('hidden');
+    document.getElementById('view-record').classList.remove('hidden');
+    document.getElementById('btn-back-clients').classList.remove('hidden');
+
+    this.renderClientHeader();
+    this.switchTab(this.activeTab || 'refs');
+  },
+
+  renderClientHeader() {
+    const c = this.getClient();
+    if (!c) return;
+    const z = getZoneFromCP(c.cp);
+
+    document.getElementById('hdr-client-name').textContent = c.name;
+    document.getElementById('hdr-client-address').innerHTML = `<i class="fas fa-map-marker-alt text-[#A8382B] mr-1"></i> ${esc(c.address || '')}, ${esc(c.cp)} ${esc(c.city)}`;
+    
+    const ph = document.getElementById('hdr-client-phone');
+    ph.href = `tel:${(c.phone || '').replace(/\s+/g, '')}`;
+    ph.innerHTML = `<i class="fas fa-phone-alt text-[#2e8b57] mr-1"></i> ${esc(c.phone || 'Non renseigné')}`;
+
+    const subEl = document.getElementById('hdr-sub-badge');
+    if (c.subType === 'res19') {
+      subEl.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-[#2e8b57] text-white';
+      subEl.textContent = '🏠 PACK RÉSIDENTIEL (19€/mois)';
+    } else if (c.subType === 'pro40') {
+      subEl.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-[#C5A059] text-[#1B4353]';
+      subEl.textContent = '⭐ PACK BUSINESS & AIRBNB (40€/mois)';
+    } else {
+      subEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-stone-200 text-stone-700';
+      subEl.textContent = '🛠️ CLIENT PONCTUEL';
+    }
+
+    const zEl = document.getElementById('hdr-zone-badge');
+    zEl.className = `px-2.5 py-1 rounded-lg text-xs font-bold border ${z.badge}`;
+    zEl.textContent = `${z.label} : Forfait Arrivée ${z.ttc}€ TTC (${z.ht}€ HT)`;
+
+    const accEl = document.getElementById('hdr-access-quick');
+    accEl.textContent = c.refs?.codeBoiteCles ? `🔑 Accès : ${c.refs.codeBoiteCles}` : (c.refs?.cylindreEntree ? `🔑 Cylindre : ${c.refs.cylindreEntree}` : '');
+    accEl.classList.toggle('hidden', !accEl.textContent);
+
+    document.getElementById('chk-v1').checked = !!(c.subCounters && c.subCounters.v1);
+    document.getElementById('chk-v2').checked = !!(c.subCounters && c.subCounters.v2);
+    document.getElementById('chk-30m').checked = !!(c.subCounters && c.subCounters.mo30Used);
+  },
+
+  toggleSubCounter(key, val) {
+    const c = this.getClient();
+    if (!c) return;
+    c.subCounters = c.subCounters || {};
+    c.subCounters[key] = val;
+    this.persist();
+  },
+
+  switchTab(tab) {
+    this.activeTab = tab;
+    ['refs', 'diag', 'rap', 'dev'].forEach(t => {
+      document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      const on = btn.dataset.tab === tab;
+      btn.className = on
+        ? 'tab-btn py-3.5 px-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition bg-[#1B4353] text-white shadow'
+        : 'tab-btn py-3.5 px-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition bg-[#F7F5EE] text-[#1B4353] hover:bg-white';
+    });
+
+    if (tab === 'refs') this.renderRefsTab();
+    if (tab === 'diag') this.renderDiagTab();
+    if (tab === 'rap')  this.renderReportTab();
+    if (tab === 'dev')  this.renderQuoteTab();
+  },
+
+  // ================= TAB 1: TECHNICAL REFERENCES =================
+  renderRefsTab() {
+    const c = this.getClient();
+    if (!c) return;
+    c.refs = c.refs || {};
+    document.querySelectorAll('[data-ref]').forEach(inp => {
+      const k = inp.dataset.ref;
+      inp.value = c.refs[k] || '';
+    });
+    this.renderCustomEquipList();
+  },
+
+  saveRefField(inp) {
+    const c = this.getClient();
+    if (!c) return;
+    c.refs = c.refs || {};
+    c.refs[inp.dataset.ref] = inp.value;
+    this.persist();
+    this.renderClientHeader();
+  },
+
+  renderCustomEquipList() {
+    const c = this.getClient();
+    const box = document.getElementById('custom-equip-list');
+    c.customEquip = c.customEquip || [];
+
+    if (c.customEquip.length === 0) {
+      box.innerHTML = `<div class="md:col-span-2 text-center py-6 text-stone-500 text-sm border border-dashed border-[#C5A059] rounded-xl bg-white/60">Aucune fiche photo d’équipement ou croquis pour le moment. Cliquez sur « + Ajouter une fiche photo / croquis » pour photographier un cylindre ou tracer vos cotes au S-Pen.</div>`;
+      return;
+    }
+
+    box.innerHTML = c.customEquip.map((eq, idx) => `
+      <div class="border border-[#C5A059] rounded-xl p-3.5 bg-white flex flex-col justify-between gap-3 shadow-sm">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <input type="text" value="${esc(eq.title)}" oninput="app.updateEquipField(${idx}, 'title', this.value)" placeholder="Titre (ex: Cylindre Porte Cave, Plaque Moteur Somfy...)" class="font-bold text-sm text-[#1B4353] bg-[#F7F5EE] px-2.5 py-1.5 rounded-lg border border-stone-300 flex-1">
+            <button onclick="app.removeEquipmentCard(${idx})" class="text-stone-400 hover:text-red-600 px-2 py-1" title="Supprimer cette fiche">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <input type="text" value="${esc(eq.location)}" oninput="app.updateEquipField(${idx}, 'location', this.value)" placeholder="Emplacement (ex: Portail, Chambre 1, Sous-sol...)" class="w-full text-xs p-2 rounded-lg border border-stone-300 bg-[#F7F5EE]">
+          <textarea rows="2" oninput="app.updateEquipField(${idx}, 'spec', this.value)" placeholder="Référence exacte à commander, dimensions en mm, numéro de série..." class="w-full text-xs p-2 rounded-lg border border-stone-300 bg-[#F7F5EE]">${esc(eq.spec)}</textarea>
+        </div>
+
+        <div class="flex items-center gap-3 pt-1">
+          ${eq.photo ? `
+            <div class="relative group">
+              <img src="${eq.photo}" onclick="app.openAnnotateModalForEquip(${idx})" class="w-24 h-24 object-cover rounded-lg border border-[#C5A059] cursor-pointer">
+              <button onclick="app.openAnnotateModalForEquip(${idx})" class="mt-1 w-full text-[11px] bg-[#1B4353] text-[#ECE8DC] py-1 px-2 rounded font-bold">✏️ Annoter S-Pen</button>
+            </div>
+          ` : ''}
+          <div class="flex flex-col gap-1.5">
+            <label class="px-3 py-2 rounded-lg border-2 border-dashed border-[#1B4353] text-[#1B4353] text-xs font-bold cursor-pointer hover:bg-[#1B4353]/5 text-center">
+              📷 Prendre Photo
+              <input type="file" accept="image/*" capture="environment" class="hidden" onchange="app.uploadEquipPhoto(${idx}, this.files)">
+            </label>
+            <button onclick="app.createBlankSketchForEquip(${idx})" class="px-3 py-2 rounded-lg bg-[#C5A059] text-[#1B4353] text-xs font-extrabold hover:bg-[#d8b46c]">
+              ✏️ Croquis quadrillé S-Pen
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  },
+
+  addEquipmentCard() {
+    const c = this.getClient();
+    if (!c) return;
+    c.customEquip = c.customEquip || [];
+    c.customEquip.push({
+      id: 'eq_' + Date.now(),
+      title: 'Nouvelle référence / Cote',
+      location: '',
+      spec: '',
+      photo: ''
+    });
+    this.persist();
+    this.renderCustomEquipList();
+  },
+
+  updateEquipField(idx, field, val) {
+    const c = this.getClient();
+    if (!c || !c.customEquip[idx]) return;
+    c.customEquip[idx][field] = val;
+    this.persist();
+  },
+
+  removeEquipmentCard(idx) {
+    const c = this.getClient();
+    if (!c) return;
+    c.customEquip.splice(idx, 1);
+    this.persist();
+    this.renderCustomEquipList();
+  },
+
+  async uploadEquipPhoto(idx, files) {
+    if (!files || !files[0]) return;
+    const dataUrl = await this.compressImage(files[0]);
+    const c = this.getClient();
+    if (c && c.customEquip[idx] && dataUrl) {
+      c.customEquip[idx].photo = dataUrl;
+      this.persist();
+      this.renderCustomEquipList();
+    }
+  },
+
+  createBlankSketchForEquip(idx) {
+    const cv = document.createElement('canvas');
+    cv.width = 800;
+    cv.height = 500;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#F7F5EE';
+    ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.strokeStyle = '#d6d3c9';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < cv.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, cv.height); ctx.stroke(); }
+    for (let y = 0; y < cv.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cv.width, y); ctx.stroke(); }
+    ctx.fillStyle = '#1B4353';
+    ctx.font = 'bold 18px sans-serif';
+    ctx.fillText('CROQUIS COTÉ S-PEN – LE COUP DE MAIN SERVICES (JULIEN COHEN)', 20, 32);
+
+    const c = this.getClient();
+    c.customEquip[idx].photo = cv.toDataURL('image/jpeg', 0.85);
+    this.persist();
+    this.renderCustomEquipList();
+    this.openAnnotateModalForEquip(idx);
+  },
+
+  // ================= TAB 2: DIAGNOSTIC 5 PÔLES =================
+  populateRoomTemplatesSelect() {
+    const sel = document.getElementById('new-room-tpl');
+    sel.innerHTML = Object.keys(TEMPLATES).map(k => `<option value="${k}">${esc(TEMPLATES[k].title)}</option>`).join('');
+  },
+
+  renderDiagTab() {
+    const c = this.getClient();
+    if (!c) return;
+    if (!c.rooms || c.rooms.length === 0) c.rooms = createDefaultRooms();
+    if (!c.curRoomId) c.curRoomId = c.rooms[0].id;
+
+    this.renderDiagChips();
+    this.renderActiveDiagRoom();
+  },
+
+  renderDiagChips() {
+    const c = this.getClient();
+    const box = document.getElementById('diag-chips');
+    box.innerHTML = c.rooms.map(r => {
+      const tpl = TEMPLATES[r.tpl] || TEMPLATES.piece_std;
+      const total = tpl.items.length;
+      let done = 0;
+      for (let i = 0; i < total; i++) {
+        if (r.items && r.items[i] && r.items[i].s) done++;
+      }
+      const on = r.id === c.curRoomId;
+      return `
+        <button onclick="app.selectDiagRoom('${r.id}')" class="px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition flex items-center gap-2 border ${on ? 'bg-[#1B4353] text-white border-[#C5A059] shadow' : 'bg-white text-[#1B4353] border-stone-300 hover:bg-stone-100'}">
+          <span>${esc(r.name)}</span>
+          <span class="text-xs px-1.5 py-0.5 rounded ${on ? 'bg-[#C5A059] text-[#1B4353] font-extrabold' : 'bg-stone-200 text-stone-700'}">${done}/${total}</span>
+        </button>
+      `;
+    }).join('');
+  },
+
+  selectDiagRoom(roomId) {
+    const c = this.getClient();
+    if (!c) return;
+    c.curRoomId = roomId;
+    this.persist();
+    this.renderDiagChips();
+    this.renderActiveDiagRoom();
+  },
+
+  renderActiveDiagRoom() {
+    const c = this.getClient();
+    const r = this.getActiveRoom();
+    const box = document.getElementById('diag-room-container');
+    if (!r) { box.innerHTML = ''; return; }
+
+    const tpl = TEMPLATES[r.tpl] || TEMPLATES.piece_std;
+    let rowsHtml = tpl.items.map((label, k) => this.buildDiagItemRowHtml(r, k, label, tpl.tags || [])).join('');
+
+    box.innerHTML = `
+      <div class="bg-[#F7F5EE] rounded-2xl p-3 sm:p-5 shadow-sm gold-border space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#C5A059]/40">
+          <h3 class="font-poster font-bold text-xl text-[#1B4353] uppercase">${esc(r.name)}</h3>
+          <div class="flex items-center gap-2">
+            <button onclick="app.markRemainingOk()" class="px-4 py-2 rounded-xl bg-[#2e8b57] hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition">
+              ✅ Tout basculer en « Bon » (le reste)
+            </button>
+            ${c.rooms.length > 1 ? `
+              <button onclick="app.deleteActiveDiagRoom()" class="p-2 rounded-xl bg-white border border-stone-300 text-stone-400 hover:text-red-600" title="Supprimer cette zone">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            ` : ''}
+          </div>
+        </div>
+
+        <div class="divide-y divide-stone-200/80">
+          ${rowsHtml}
+        </div>
+
+        <div class="pt-3">
+          <label class="block text-xs font-extrabold uppercase text-[#1B4353] mb-1">Observations générales sur « ${esc(r.name)} » :</label>
+          <textarea rows="2" oninput="app.saveRoomNote(this.value)" placeholder="Note manuscrite au stylet S-Pen ou clavier pour ce pôle..." class="w-full p-3 rounded-xl border border-stone-300 bg-white text-sm">${esc(r.note || '')}</textarea>
+        </div>
+      </div>
+    `;
+  },
+
+  buildDiagItemRowHtml(r, k, label, presetTags) {
+    const d = (r.items && r.items[k]) || {};
+    const st = d.s || '';
+    const rowCls = st && STATUS_META[st] ? STATUS_META[st].rowCls : 'bg-white';
+
+    const btns = [
+      ['ok',    '✅', 'Bon'],
+      ['fix',   '🛠️', 'Réglé'],
+      ['watch', '⚠️', 'Prévoir'],
+      ['ko',    '🔴', 'Urgent'],
+      ['na',    '➖', 'N/A']
+    ].map(b => {
+      const active = st === b[0];
+      let activeBg = 'bg-white border-stone-300 text-stone-700';
+      if (active && b[0] === 'ok')    activeBg = 'bg-[#2e8b57] border-[#2e8b57] text-white shadow';
+      if (active && b[0] === 'fix')   activeBg = 'bg-blue-600 border-blue-600 text-white shadow';
+      if (active && b[0] === 'watch') activeBg = 'bg-amber-500 border-amber-500 text-white shadow';
+      if (active && b[0] === 'ko')    activeBg = 'bg-[#A8382B] border-[#A8382B] text-white shadow';
+      if (active && b[0] === 'na')    activeBg = 'bg-stone-500 border-stone-500 text-white';
+
+      return `
+        <button onclick="app.setItemStatus(${k}, '${b[0]}')" class="px-2.5 py-2 rounded-xl border-2 font-bold text-xs flex flex-col items-center justify-center min-w-[54px] transition ${activeBg}">
+          <span class="text-base leading-none">${b[1]}</span>
+          <span class="text-[10px] mt-0.5">${b[2]}</span>
+        </button>
+      `;
+    }).join('');
+
+    let detailsHtml = '';
+    if (st === 'fix' || st === 'watch' || st === 'ko') {
+      const tagsHtml = presetTags.map(tag => `
+        <button type="button" onclick="app.appendPresetTag(${k}, '${esc(tag)}')" class="px-2.5 py-1 rounded-full bg-white border border-[#C5A059] hover:bg-[#1B4353] hover:text-white text-xs text-[#1B4353] font-semibold transition">
+          + ${esc(tag)}
+        </button>
+      `).join('');
+
+      const photosHtml = (d.photos || []).map((ph, pIdx) => `
+        <div class="relative inline-block">
+          <img src="${ph}" onclick="app.openAnnotateModalForDiag(${k}, ${pIdx})" class="w-20 h-20 object-cover rounded-lg border border-[#C5A059] cursor-pointer">
+          <button onclick="app.openAnnotateModalForDiag(${k}, ${pIdx})" class="absolute bottom-1 left-1 bg-[#1B4353]/90 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">✏️ S-Pen</button>
+          <button onclick="app.deleteDiagPhoto(${k}, ${pIdx})" class="absolute -top-1.5 -right-1.5 bg-[#A8382B] text-white rounded-full w-5 h-5 text-xs font-bold leading-none">×</button>
+        </div>
+      `).join('');
+
+      detailsHtml = `
+        <div class="mt-3 pt-2.5 border-t border-stone-200/80 space-y-2.5">
+          <div class="flex flex-wrap gap-1.5">
+            ${tagsHtml}
+          </div>
+
+          <textarea rows="2" oninput="app.updateDiagItemField(${k}, 'work', this.value)" placeholder="${st === 'fix' ? 'Action préventive réalisée sur place (ex: Graissage PTFE + réglage gâche)...' : 'Description des travaux / pièce à chiffrer sur Renalto...'}" class="w-full p-2.5 rounded-xl border border-stone-300 bg-white text-sm">${esc(d.work || '')}</textarea>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-stone-300">
+              <span class="text-xs font-bold text-stone-600">Fournitures € HT :</span>
+              <input type="number" step="0.5" min="0" value="${esc(d.price || '')}" oninput="app.updateDiagItemField(${k}, 'price', this.value)" placeholder="0" class="w-20 font-bold text-sm text-[#1B4353] outline-none">
+            </div>
+
+            <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-stone-300">
+              <span class="text-xs font-bold text-stone-600">Main-d'œuvre (h) :</span>
+              <select onchange="app.updateDiagItemField(${k}, 'hours', +this.value)" class="font-bold text-sm text-[#1B4353] bg-transparent outline-none">
+                ${[0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4].map(h => `<option value="${h}" ${(d.hours || 0) == h ? 'selected' : ''}>${h === 0 ? '0h (Inclus)' : h + ' h (' + (h * 60) + '€ HT)'}</option>`).join('')}
+              </select>
+            </div>
+
+            <label class="px-3 py-2 rounded-xl border-2 border-dashed border-[#1B4353] text-[#1B4353] text-xs font-bold cursor-pointer hover:bg-[#1B4353]/5">
+              📷 Photo
+              <input type="file" accept="image/*" capture="environment" multiple class="hidden" onchange="app.uploadDiagPhotos(${k}, this.files)">
+            </label>
+          </div>
+
+          ${photosHtml ? `<div class="flex flex-wrap gap-2 pt-1">${photosHtml}</div>` : ''}
+        </div>
+      `;
+    }
+
+    return `
+      <div id="diag-row-${k}" class="item-row ${rowCls} p-3 rounded-r-xl my-1.5 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div class="font-bold text-sm sm:text-base text-[#18282E]">${esc(label)}</div>
+          <div class="flex items-center gap-1.5 self-end sm:self-auto">${btns}</div>
+        </div>
+        ${detailsHtml}
+      </div>
+    `;
+  },
+
+  setItemStatus(k, status) {
+    const r = this.getActiveRoom();
+    if (!r) return;
+    r.items = r.items || {};
+    r.items[k] = r.items[k] || {};
+    r.items[k].s = r.items[k].s === status ? '' : status;
+    if ((r.items[k].s === 'watch' || r.items[k].s === 'ko') && r.items[k].hours === undefined) {
+      r.items[k].hours = 1;
+    }
+    this.persist();
+    this.renderDiagChips();
+    this.renderActiveDiagRoom();
+  },
+
+  appendPresetTag(k, tagText) {
+    const r = this.getActiveRoom();
+    if (!r) return;
+    r.items[k] = r.items[k] || {};
+    const cur = (r.items[k].work || '').trim();
+    r.items[k].work = cur ? cur + ' · ' + tagText : tagText;
+    this.persist();
+    this.renderActiveDiagRoom();
+  },
+
+  updateDiagItemField(k, field, val) {
+    const r = this.getActiveRoom();
+    if (!r) return;
+    r.items[k] = r.items[k] || {};
+    r.items[k][field] = val;
+    this.persist();
+  },
+
+  saveRoomNote(val) {
+    const r = this.getActiveRoom();
+    if (!r) return;
+    r.note = val;
+    this.persist();
+  },
+
+  markRemainingOk() {
+    const r = this.getActiveRoom();
+    if (!r) return;
+    const tpl = TEMPLATES[r.tpl] || TEMPLATES.piece_std;
+    r.items = r.items || {};
+    tpl.items.forEach((_, k) => {
+      if (!r.items[k] || !r.items[k].s) {
+        r.items[k] = { s: 'ok' };
+      }
+    });
+    this.persist();
+    this.renderDiagChips();
+    this.renderActiveDiagRoom();
+  },
+
+  addDiagRoom() {
+    const c = this.getClient();
+    if (!c) return;
+    const tplKey = document.getElementById('new-room-tpl').value || 'piece_std';
+    const nameInp = document.getElementById('new-room-name');
+    const name = nameInp.value.trim() || TEMPLATES[tplKey].title;
+    const newR = { id: 'rm_' + Date.now(), name, tpl: tplKey, items: {}, note: '' };
+    c.rooms.push(newR);
+    c.curRoomId = newR.id;
+    nameInp.value = '';
+    this.persist();
+    this.renderDiagTab();
+  },
+
+  deleteActiveDiagRoom() {
+    const c = this.getClient();
+    const r = this.getActiveRoom();
+    if (!c || !r || c.rooms.length <= 1) return;
+    this.askConfirm(`Supprimer la zone « ${r.name} » ?`, 'Les points cochés dans cette zone seront supprimés.', () => {
+      c.rooms = c.rooms.filter(x => x.id !== r.id);
+      c.curRoomId = c.rooms[0].id;
+      this.persist();
+      this.renderDiagTab();
+    });
+  },
+
+  async uploadDiagPhotos(k, files) {
+    const r = this.getActiveRoom();
+    if (!r || !files.length) return;
+    r.items[k] = r.items[k] || {};
+    r.items[k].photos = r.items[k].photos || [];
+    for (let i = 0; i < files.length; i++) {
+      const u = await this.compressImage(files[i]);
+      if (u) r.items[k].photos.push(u);
+    }
+    this.persist();
+    this.renderActiveDiagRoom();
+  },
+
+  deleteDiagPhoto(k, pIdx) {
+    const r = this.getActiveRoom();
+    if (!r || !r.items[k] || !r.items[k].photos) return;
+    r.items[k].photos.splice(pIdx, 1);
+    this.persist();
+    this.renderActiveDiagRoom();
+  },
+
+  compressImage(file, maxDim = 1000) {
+    return new Promise(resolve => {
+      const fr = new FileReader();
+      fr.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+          const cv = document.createElement('canvas');
+          cv.width = Math.round(img.width * scale);
+          cv.height = Math.round(img.height * scale);
+          cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+          resolve(cv.toDataURL('image/jpeg', 0.78));
+        };
+        img.onerror = () => resolve(null);
+        img.src = fr.result;
+      };
+      fr.onerror = () => resolve(null);
+      fr.readAsDataURL(file);
+    });
+  },
+
+  // ================= S-PEN ANNOTATION MODAL =================
+  setupAnnotationEvents() {
+    const cv = document.getElementById('annot-canvas');
+    let drawing = false;
+    const getPos = e => {
+      const rect = cv.getBoundingClientRect();
+      const scaleX = cv.width / rect.width;
+      const scaleY = cv.height / rect.height;
+      return [(e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY];
+    };
+
+    cv.addEventListener('pointerdown', e => {
+      drawing = true;
+      const ctx = cv.getContext('2d');
+      const [x, y] = getPos(e);
+      ctx.strokeStyle = this.annotState.color;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = (e.pointerType === 'pen' && e.pressure) ? 2 + e.pressure * 5 : 4;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      cv.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    cv.addEventListener('pointermove', e => {
+      if (!drawing) return;
+      const ctx = cv.getContext('2d');
+      const [x, y] = getPos(e);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      e.preventDefault();
+    });
+
+    const stop = () => { drawing = false; };
+    cv.addEventListener('pointerup', stop);
+    cv.addEventListener('pointercancel', stop);
+  },
+
+  setPenColor(col) {
+    this.annotState.color = col;
+  },
+
+  openAnnotateModalForDiag(itemKey, photoIdx) {
+    const r = this.getActiveRoom();
+    const src = r?.items?.[itemKey]?.photos?.[photoIdx];
+    if (!src) return;
+    this.annotState = { targetType: 'diag', itemKey, photoIdx, color: '#A8382B', baseImg: src };
+    this.loadImageIntoAnnotCanvas(src);
+  },
+
+  openAnnotateModalForEquip(eqIdx) {
+    const c = this.getClient();
+    const src = c?.customEquip?.[eqIdx]?.photo;
+    if (!src) return;
+    this.annotState = { targetType: 'equip', eqIdx, color: '#A8382B', baseImg: src };
+    this.loadImageIntoAnnotCanvas(src);
+  },
+
+  loadImageIntoAnnotCanvas(src) {
+    const modal = document.getElementById('modal-annotate');
+    const cv = document.getElementById('annot-canvas');
+    modal.classList.remove('hidden');
+    const img = new Image();
+    img.onload = () => {
+      cv.width = img.width;
+      cv.height = img.height;
+      cv.getContext('2d').drawImage(img, 0, 0);
+    };
+    img.src = src;
+  },
+
+  clearAnnotationCanvas() {
+    if (this.annotState.baseImg) {
+      this.loadImageIntoAnnotCanvas(this.annotState.baseImg);
+    }
+  },
+
+  closeAnnotateModal() {
+    document.getElementById('modal-annotate').classList.add('hidden');
+  },
+
+  saveAnnotatedPhoto() {
+    const cv = document.getElementById('annot-canvas');
+    const out = cv.toDataURL('image/jpeg', 0.82);
+    if (this.annotState.targetType === 'diag') {
+      const r = this.getActiveRoom();
+      if (r && r.items[this.annotState.itemKey]?.photos) {
+        r.items[this.annotState.itemKey].photos[this.annotState.photoIdx] = out;
+        this.persist();
+        this.renderActiveDiagRoom();
+      }
+    } else if (this.annotState.targetType === 'equip') {
+      const c = this.getClient();
+      if (c && c.customEquip[this.annotState.eqIdx]) {
+        c.customEquip[this.annotState.eqIdx].photo = out;
+        this.persist();
+        this.renderCustomEquipList();
+      }
+    }
+    this.closeAnnotateModal();
+  },
+
+  // ================= TAB 3: REPORT, CGV & SIGNATURE =================
+  saveLegalFlag(key, val) {
+    const c = this.getClient();
+    if (!c) return;
+    c.legal = c.legal || {};
+    c.legal[key] = val;
+    this.persist();
+    this.updateReportHtml();
+  },
+
+  renderReportTab() {
+    const c = this.getClient();
+    if (!c) return;
+    c.legal = c.legal || {};
+    document.getElementById('cgv-keep-parts').checked = !!c.legal.keepParts;
+    document.getElementById('cgv-id-verified').checked = !!c.legal.idVerified;
+    document.getElementById('cgv-urgent-waiver').checked = !!c.legal.urgentWaiver;
+
+    this.initSignatureCanvas();
+    this.updateReportHtml();
+  },
+
+  setupSignatureEvents() {
+    const cv = document.getElementById('sig-canvas');
+    let drawing = false;
+    const pos = e => {
+      const b = cv.getBoundingClientRect();
+      return [e.clientX - b.left, e.clientY - b.top];
+    };
+    cv.addEventListener('pointerdown', e => {
+      drawing = true;
+      const ctx = cv.getContext('2d');
+      const [x, y] = pos(e);
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      cv.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    cv.addEventListener('pointermove', e => {
+      if (!drawing) return;
+      const ctx = cv.getContext('2d');
+      const [x, y] = pos(e);
+      ctx.lineWidth = (e.pointerType === 'pen' && e.pressure) ? 1.2 + e.pressure * 3.5 : 2.5;
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      e.preventDefault();
+    });
+    const end = () => {
+      if (!drawing) return;
+      drawing = false;
+      const c = this.getClient();
+      if (c) {
+        c.sig = cv.toDataURL('image/png');
+        c.sigDate = new Date().toLocaleDateString('fr-FR');
+        this.persist();
+        this.updateReportHtml();
+      }
+    };
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointercancel', end);
+  },
+
+  initSignatureCanvas() {
+    const cv = document.getElementById('sig-canvas');
+    const c = this.getClient();
+    const ratio = window.devicePixelRatio || 1;
+    const w = cv.clientWidth || 600;
+    const h = cv.clientHeight || 176;
+    cv.width = w * ratio;
+    cv.height = h * ratio;
+    const ctx = cv.getContext('2d');
+    ctx.scale(ratio, ratio);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#1B4353';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, w, h);
+
+    if (c && c.sig) {
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, w, h);
+      img.src = c.sig;
+    }
+  },
+
+  clearSignature() {
+    const c = this.getClient();
+    if (!c) return;
+    c.sig = '';
+    c.sigDate = '';
+    this.persist();
+    this.initSignatureCanvas();
+    this.updateReportHtml();
+  },
+
+  collectAllEvaluatedItems(c) {
+    const list = [];
+    (c.rooms || []).forEach(r => {
+      const tpl = TEMPLATES[r.tpl] || TEMPLATES.piece_std;
+      tpl.items.forEach((label, k) => {
+        const d = r.items && r.items[k];
+        if (d && d.s && d.s !== 'na') {
+          list.push({ room: r, label, d });
+        }
+      });
+    });
+    return list;
+  },
+
+  updateReportHtml() {
+    const c = this.getClient();
+    if (!c) return;
+    const z = getZoneFromCP(c.cp);
+    const allItems = this.collectAllEvaluatedItems(c);
+    const counts = { ok: 0, fix: 0, watch: 0, ko: 0 };
+    allItems.forEach(x => { if (counts[x.d.s] !== undefined) counts[x.d.s]++; });
+
+    const subLabel = c.subType === 'res19'
+      ? 'Abonné Pack Résidentiel (19 € TTC/mois)'
+      : (c.subType === 'pro40' ? 'Abonné Pack Business & Airbnb (40 € TTC/mois)' : 'Dépannage & Service Ponctuel');
+
+    const fixesList = allItems.filter(x => x.d.s === 'fix');
+    const todoList = allItems.filter(x => x.d.s === 'watch' || x.d.s === 'ko').sort((a, b) => a.d.s === 'ko' ? -1 : 1);
+
+    const logoBlock = this.customLogo
+      ? `<img src="${this.customLogo}" style="width:74px;height:74px;border-radius:50%;object-fit:cover;border:2px solid #C5A059;">`
+      : `<svg style="width:74px;height:74px;"><use href="#blason-lecoupdemain"></use></svg>`;
+
+    let html = `
+      <!-- Poster-Style Header -->
+      <div style="border-bottom: 3px solid #1B4353; padding-bottom: 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          ${logoBlock}
+          <div>
+            <div style="font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: #1B4353; letter-spacing: 0.5px; text-transform: uppercase;">
+              JULIEN COHEN — LE COUP DE MAIN SERVICES
+            </div>
+            <div style="font-size: 13px; color: #1B4353; font-weight: 700;">
+              Artisan multiservices & multitechniques • Votre artisan de confiance à domicile
+            </div>
+            <div style="font-size: 11.5px; color: #444; margin-top: 2px;">
+              SASU LE COUP DE MAIN SERVICES • 22a rue du Rhin, 68680 Kembs • Tél : <b>06 46 66 42 22</b>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: right; background: #ECE8DC; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #C5A059;">
+          <div style="font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; color: #1B4353;">CARNET DE SANTÉ & RAPPORT</div>
+          <div style="font-size: 12px; color: #333;">Date : <b>${new Date().toLocaleDateString('fr-FR')}</b></div>
+          <div style="font-size: 11px; color: #A8382B; font-weight: 700; margin-top: 2px;">${esc(subLabel)}</div>
+        </div>
+      </div>
+
+      <!-- Client & Technical ID Summary -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; font-size: 12.5px;">
+        <div style="background: #ffffff; padding: 10px 12px; border-radius: 8px; border: 1px solid #C5A059;">
+          <div style="font-weight: 800; color: #1B4353; margin-bottom: 4px; text-transform: uppercase;">Coordonnées du Client</div>
+          <div><b>Client :</b> ${esc(c.name)}</div>
+          <div><b>Adresse :</b> ${esc(c.address || '')}, ${esc(c.cp)} ${esc(c.city)}</div>
+          <div><b>Téléphone :</b> ${esc(c.phone || '—')}</div>
+          <div><b>Zone tarifaire :</b> ${esc(z.label)}</div>
+        </div>
+        <div style="background: #ffffff; padding: 10px 12px; border-radius: 8px; border: 1px solid #C5A059;">
+          <div style="font-weight: 800; color: #1B4353; margin-bottom: 4px; text-transform: uppercase;">Mémoire Technique du Logement</div>
+          <div><b>🔑 Cylindre Entrée :</b> ${esc(c.refs?.cylindreEntree || '—')} (${esc(c.refs?.marqueSerrure || '—')})</div>
+          <div><b>⚙️ Volets Roulants :</b> ${esc(c.refs?.moteurVolet || '—')}</div>
+          <div><b>🚰 Vanne d'arrêt eau :</b> ${esc(c.refs?.vanneArret || '—')}</div>
+          <div><b>💡 Tableau Élec :</b> ${esc(c.refs?.tableauElec || '—')}</div>
+        </div>
+      </div>
+
+      <!-- Summary Status Badges -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+        <span style="background: #2e8b57; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;">✅ ${counts.ok} Point(s) conforme(s)</span>
+        <span style="background: #1d4ed8; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;">🛠️ ${counts.fix} Réglage(s) préventif(s) sur place</span>
+        <span style="background: #d97706; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;">⚠️ ${counts.watch} Travaux à prévoir</span>
+        <span style="background: #A8382B; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;">🔴 ${counts.ko} Urgence(s)</span>
+      </div>
+    `;
+
+    if (fixesList.length > 0) {
+      html += `
+        <h3 style="color: #1d4ed8; font-size: 14.5px; font-weight: 800; border-bottom: 2px solid #1d4ed8; padding-bottom: 4px; margin: 14px 0 8px 0; text-transform: uppercase;">
+          🛠️ Interventions & Réglages préventifs réalisés sur place
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px; background: #fff;">
+          ${fixesList.map(x => `
+            <tr class="page-break-inside-avoid" style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 6px; width: 110px;"><span style="background:#1d4ed8;color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;font-size:11px;">Réglé sur place</span></td>
+              <td style="padding: 6px;"><b>${esc(x.room.name)} – ${esc(x.label)}</b>${x.d.work ? `<br><span style="color:#334155;">${esc(x.d.work)}</span>` : ''}</td>
+            </tr>
+          `).join('')}
+        </table>
+      `;
+    }
+
+    if (todoList.length > 0) {
+      html += `
+        <h3 style="color: #1B4353; font-size: 14.5px; font-weight: 800; border-bottom: 2px solid #1B4353; padding-bottom: 4px; margin: 14px 0 8px 0; text-transform: uppercase;">
+          ⚠️ Travaux conseillés & Pièces à prévoir (Sur Devis)
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px; background: #fff;">
+          ${todoList.map(x => {
+            const bg = x.d.s === 'ko' ? '#A8382B' : '#d97706';
+            const lb = x.d.s === 'ko' ? 'URGENT' : 'À prévoir';
+            const phHtml = (x.d.photos || []).length
+              ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">${x.d.photos.map(p => `<img src="${p}" style="width:85px;height:85px;object-fit:cover;border-radius:6px;border:1px solid #C5A059;">`).join('')}</div>`
+              : '';
+            const est = (parseFloat(x.d.price) || 0) + ((parseFloat(x.d.hours) || 0) * 60);
+            return `
+              <tr class="page-break-inside-avoid" style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 6px; width: 90px; vertical-align: top;"><span style="background:${bg};color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;font-size:11px;">${lb}</span></td>
+                <td style="padding: 6px; vertical-align: top;">
+                  <b>${esc(x.room.name)} – ${esc(x.label)}</b>
+                  ${x.d.work ? `<br><span style="color:#334155;">${esc(x.d.work)}</span>` : ''}
+                  ${phHtml}
+                </td>
+                <td style="padding: 6px; width: 120px; text-align: right; vertical-align: top; font-weight: 700; color: #1B4353;">
+                  ${est > 0 ? `Est. ${est.toFixed(0)} € HT` : 'Sur devis'}
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </table>
+      `;
+    }
+
+    html += `<h3 style="color: #1B4353; font-size: 14.5px; font-weight: 800; border-bottom: 2px solid #1B4353; padding-bottom: 4px; margin: 14px 0 8px 0; text-transform: uppercase;">✅ Points de contrôle conformes par pôle</h3>`;
+    (c.rooms || []).forEach(r => {
+      const okItems = allItems.filter(x => x.room === r && x.d.s === 'ok');
+      if (!okItems.length && !r.note) return;
+      html += `
+        <div class="page-break-inside-avoid" style="margin-bottom: 8px; font-size: 12px;">
+          <div style="font-weight: 700; color: #1B4353;">${esc(r.name)} :</div>
+          ${okItems.length ? `<div style="color: #2e8b57;">✓ Conforme : <span style="color:#334155;">${okItems.map(x => esc(x.label)).join(' · ')}</span></div>` : ''}
+          ${r.note ? `<div style="color: #475569; font-style: italic; margin-top: 2px;">Observation : ${esc(r.note)}</div>` : ''}
+        </div>
+      `;
+    });
+
+    html += `
+      <div class="page-break-inside-avoid" style="margin-top: 14px; padding: 10px 12px; background: #ffffff; border: 1px solid #C5A059; border-radius: 8px; font-size: 11px; color: #334155; line-height: 1.45;">
+        <div><b>Mentions contractuelles (CGV SASU Le Coup de Main Services) :</b></div>
+        <div>• Conservation des pièces usagées remplacées (Art. 4.4 CGV) : <b>${c.legal?.keepParts ? 'OUI (conservées par le client)' : 'NON (évacuées par le prestataire)'}</b></div>
+        ${c.legal?.idVerified ? `<div>• Serrurerie (Art. 8.1 CGV) : <b>Pièce d'identité et justificatif d'occupation légitime vérifiés sur place.</b></div>` : ''}
+        ${c.legal?.urgentWaiver ? `<div style="color:#A8382B;font-weight:700;">• URGENCE IMMÉDIATE (Art. 7.2 CGV / Art. L.221-28 C. Conso) : Le client sollicite expressément l'exécution immédiate des travaux d'urgence nécessaires et renonce expressément à son droit de rétractation pour ces travaux.</div>` : ''}
+      </div>
+
+      <!-- Signatures -->
+      <div class="page-break-inside-avoid" style="display: flex; justify-content: space-between; gap: 24px; margin-top: 18px; padding-top: 10px; flex-wrap: wrap; font-size: 12px;">
+        <div style="flex: 1; min-width: 220px;">
+          <div style="font-weight: 700; color: #1B4353; margin-bottom: 4px;">Le Client — « Lu et approuvé »</div>
+          ${c.sig
+            ? `<img src="${c.sig}" style="height: 85px; max-width: 260px; object-fit: contain; border-bottom: 1.5px solid #1B4353; background:#fff; padding:4px; border-radius:4px;">`
+            : `<div style="height: 85px; border-bottom: 1.5px solid #1B4353; width: 240px; background:#fff;"></div>`}
+          <div style="margin-top: 4px; color: #444;">${esc(c.name)} ${c.sigDate ? '— Signé le ' + c.sigDate : ''}</div>
+        </div>
+        <div style="flex: 1; min-width: 220px;">
+          <div style="font-weight: 700; color: #1B4353; margin-bottom: 4px;">Pour Le Coup de Main Services</div>
+          <div style="height: 85px; border-bottom: 1.5px solid #1B4353; width: 240px; display: flex; align-items: center; justify-content: center; font-family: 'Kaushan Script', cursive, serif; font-size: 22px; color: #1B4353; background:#fff; border-radius:4px;">
+            Julien Cohen
+          </div>
+          <div style="margin-top: 4px; color: #444;">Julien Cohen • Artisan multiservices & multitechniques</div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('report-preview-box').innerHTML = html;
+    document.getElementById('print-area').innerHTML = html;
+  },
+
+  sendWhatsAppReport() {
+    const c = this.getClient();
+    if (!c) return;
+    const allItems = this.collectAllEvaluatedItems(c);
+    const fixes = allItems.filter(x => x.d.s === 'fix');
+    const todos = allItems.filter(x => x.d.s === 'watch' || x.d.s === 'ko');
+    const oks   = allItems.filter(x => x.d.s === 'ok');
+
+    let lines = [
+      `Bonjour ${c.name},`,
+      `Voici le compte-rendu de mon intervention aujourd'hui (${new Date().toLocaleDateString('fr-FR')}) — *Le Coup de Main Services* 🛠️ :`,
+      ``,
+      `✅ *${oks.length} point(s) contrôlé(s) conformes*`
+    ];
+
+    if (fixes.length > 0) {
+      lines.push(`🛠️ *${fixes.length} réglage(s) préventif(s) effectué(s) sur place :*`);
+      fixes.forEach(x => lines.push(`  • ${x.room.name} - ${x.label}${x.d.work ? ' (' + x.d.work + ')' : ''}`));
+    }
+
+    if (todos.length > 0) {
+      lines.push(``, `⚠️ *Travaux à prévoir sur devis :*`);
+      todos.forEach(x => lines.push(`  • [${x.d.s === 'ko' ? 'URGENT' : 'À prévoir'}] ${x.room.name} - ${x.label} : ${x.d.work || 'à chiffrer'}`));
+    } else {
+      lines.push(``, `🎉 Tout est en parfait état de fonctionnement !`);
+    }
+
+    lines.push(``, `À votre écoute,`, `Julien Cohen – Le Coup de Main Services (06 46 66 42 22)`);
+
+    let phoneClean = (c.phone || '').replace(/\D+/g, '');
+    if (phoneClean.startsWith('0') && phoneClean.length === 10) {
+      phoneClean = '33' + phoneClean.slice(1);
+    }
+    const url = `https://wa.me/${phoneClean}?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.open(url, '_blank');
+  },
+
+  // ================= TAB 4: QUOTE & RENALTO BRIDGE =================
+  saveQuoteCfg(key, val) {
+    const c = this.getClient();
+    if (!c) return;
+    c.quoteCfg = c.quoteCfg || {};
+    c.quoteCfg[key] = val;
+    this.persist();
+    this.renderQuoteTab();
+  },
+
+  renderQuoteTab() {
+    const c = this.getClient();
+    if (!c) return;
+    const cfg = c.quoteCfg = c.quoteCfg || { travelMode: 'auto', tvaRate: 10, saturday: false, nightSun: false, deduct30m: false };
+
+    document.getElementById('q-travel').value = cfg.travelMode || 'auto';
+    document.getElementById('q-tva').value = cfg.tvaRate !== undefined ? cfg.tvaRate : 10;
+    document.getElementById('q-sat').checked = !!cfg.saturday;
+    document.getElementById('q-night').checked = !!cfg.nightSun;
+    document.getElementById('q-deduct30').checked = !!cfg.deduct30m;
+
+    const z = getZoneFromCP(c.cp);
+    let travelHT = 0;
+    let travelLabel = '';
+    if (cfg.travelMode === 'free') {
+      travelHT = 0;
+      travelLabel = 'Forfait Déplacement & Diagnostic : Inclus dans visite préventive abonnement (0,00 € HT)';
+    } else if (cfg.travelMode === 'z1') {
+      travelHT = 50;
+      travelLabel = 'Forfait Arrivée Zone 1 (3 Frontières ≤20 km) : 50,00 € HT (60,00 € TTC)';
+    } else if (cfg.travelMode === 'z2') {
+      travelHT = 60;
+      travelLabel = 'Forfait Arrivée Zone 2 (Mulhouse Agglo / Sundgau) : 60,00 € HT (72,00 € TTC)';
+    } else {
+      travelHT = z.ht;
+      travelLabel = `Forfait Arrivée ${z.label} : ${z.ht.toFixed(2)} € HT`;
+    }
+
+    if (cfg.nightSun && travelHT > 0) {
+      travelHT = travelHT * 1.5;
+      travelLabel += ' [Majoration Urgence Nuit/Dimanche +50%]';
+    }
+
+    let hourlyRateHT = 60; // 60€ HT / 72€ TTC standard
+    let rateNote = '60,00 € HT/h';
+    if (cfg.nightSun) {
+      hourlyRateHT = 60 * 1.5;
+      rateNote = '90,00 € HT/h (Majoration Nuit/Dimanche +50%)';
+    } else if (cfg.saturday) {
+      hourlyRateHT = 60 * 1.25;
+      rateNote = '75,00 € HT/h (Majoration Samedi +25%)';
+    }
+
+    const allItems = this.collectAllEvaluatedItems(c);
+    const todoList = allItems.filter(x => x.d.s === 'watch' || x.d.s === 'ko').sort((a, b) => a.d.s === 'ko' ? -1 : 1);
+
+    let totalPartsHT = 0;
+    let totalHours = 0;
+
+    const lines = [
+      `==========================================================`,
+      `PRÉ-DEVIS / CHIFFRAGE POUR RENALTO – LE COUP DE MAIN SERVICES`,
+      `Julien Cohen — Artisan multiservices & multitechniques`,
+      `==========================================================`,
+      `Client    : ${c.name}`,
+      `Adresse   : ${c.address || ''}, ${c.cp} ${c.city}`,
+      `Téléphone : ${c.phone || '—'} | Email : ${c.email || '—'}`,
+      `Formule   : ${c.subType === 'res19' ? 'Abonné Pack Résidentiel (19€/mois)' : (c.subType === 'pro40' ? 'Abonné Pack Business & Airbnb (40€/mois)' : 'Client Ponctuel')}`,
+      `Réf Tech. : Cylindre=${c.refs?.cylindreEntree || 'N/A'} | Volet=${c.refs?.moteurVolet || 'N/A'} | Élec=${c.refs?.tableauElec || 'N/A'}`,
+      ``,
+      `1. DÉPLACEMENT & DIAGNOSTIC (Art. 4.1 CGV)`,
+      `   - ${travelLabel} => ${travelHT.toFixed(2)} € HT`,
+      ``,
+      `2. LIGNES DE TRAVAUX & FOURNITURES RELEVÉES :`
+    ];
+
+    if (todoList.length === 0) {
+      lines.push(`   (Aucun poste "À prévoir" ou "Urgent" coché dans le diagnostic)`);
+    } else {
+      todoList.forEach((x, idx) => {
+        const pHT = parseFloat(x.d.price) || 0;
+        const hrs = parseFloat(x.d.hours) || 0;
+        const moHT = hrs * hourlyRateHT;
+        totalPartsHT += pHT;
+        totalHours += hrs;
+        const stTag = x.d.s === 'ko' ? 'URGENT' : 'À PRÉVOIR';
+        lines.push(`   ${idx + 1}. [${stTag}] ${x.room.name} – ${x.label}`);
+        lines.push(`      Descriptif : ${x.d.work || 'Remplacement / Réparation selon diagnostic'}`);
+        lines.push(`      Fournitures : ${pHT.toFixed(2)} € HT | Main-d'œuvre : ${hrs}h x ${hourlyRateHT.toFixed(2)}€ = ${moHT.toFixed(2)} € HT`);
+      });
+    }
+
+    let totalLaborHT = totalHours * hourlyRateHT;
+    let discountHT = 0;
+    if (cfg.deduct30m && totalLaborHT > 0) {
+      discountHT = Math.min(totalLaborHT, 30);
+    }
+
+    const netHT = travelHT + totalPartsHT + totalLaborHT - discountHT;
+    const tvaRate = parseFloat(cfg.tvaRate) || 0;
+    const tvaAmount = netHT * (tvaRate / 100);
+    const totalTTC = netHT + tvaAmount;
+
+    lines.push(``);
+    lines.push(`3. RÉCAPITULATIF FINANCIER :`);
+    lines.push(`   - Forfait Arrivée HT        : ${travelHT.toFixed(2)} € HT`);
+    lines.push(`   - Total Fournitures HT      : ${totalPartsHT.toFixed(2)} € HT`);
+    lines.push(`   - Total Main-d'œuvre (${totalHours}h à ${rateNote}) : ${totalLaborHT.toFixed(2)} € HT`);
+    if (discountHT > 0) {
+      lines.push(`   - Avantage Pack Résidentiel (30 min MO offertes/an) : -${discountHT.toFixed(2)} € HT`);
+    }
+    lines.push(`   ----------------------------------------------------------`);
+    lines.push(`   TOTAL HT                    : ${netHT.toFixed(2)} € HT`);
+    lines.push(`   TVA (${tvaRate}%)                  : ${tvaAmount.toFixed(2)} €`);
+    lines.push(`   TOTAL TTC                   : ${totalTTC.toFixed(2)} € TTC`);
+    if (tvaRate === 10) {
+      lines.push(`   (Mention Devis : TVA réduite 10% applicable aux locaux d'habitation achevés depuis plus de 2 ans)`);
+    }
+    lines.push(`   (Conservation des pièces remplacées Art. 4.4 CGV : ${c.legal?.keepParts ? 'OUI' : 'NON'})`);
+
+    document.getElementById('renalto-txt').value = lines.join('\n');
+
+    document.getElementById('quote-totals-bar').innerHTML = `
+      <div class="bg-white p-3 rounded-xl border border-[#C5A059]/60">
+        <div class="text-xs text-stone-500 font-semibold">Déplacement HT</div>
+        <div class="text-lg font-extrabold text-[#1B4353]">${travelHT.toFixed(2)} €</div>
+      </div>
+      <div class="bg-white p-3 rounded-xl border border-[#C5A059]/60">
+        <div class="text-xs text-stone-500 font-semibold">Fournitures HT</div>
+        <div class="text-lg font-extrabold text-[#1B4353]">${totalPartsHT.toFixed(2)} €</div>
+      </div>
+      <div class="bg-white p-3 rounded-xl border border-[#C5A059]/60">
+        <div class="text-xs text-stone-500 font-semibold">Main-d'œuvre (${totalHours}h)</div>
+        <div class="text-lg font-extrabold text-[#1B4353]">${(totalLaborHT - discountHT).toFixed(2)} € HT</div>
+      </div>
+      <div class="bg-[#1B4353] text-white p-3 rounded-xl shadow border border-[#C5A059]">
+        <div class="text-xs text-[#E5C882] font-bold">Total Estimé TTC (TVA ${tvaRate}%)</div>
+        <div class="text-xl font-extrabold">${totalTTC.toFixed(2)} € TTC</div>
+      </div>
+    `;
+  },
+
+  copyRenaltoText() {
+    const el = document.getElementById('renalto-txt');
+    el.select();
+    try {
+      document.execCommand('copy');
+      const toast = document.getElementById('copy-toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2500);
+    } catch (e) {}
+  },
+
+  // ================= MODAL CLIENT CRUD =================
+  openClientModal(editId = null) {
+    this.editingClientId = editId;
+    const modal = document.getElementById('modal-client');
+    const delBtn = document.getElementById('btn-delete-client');
+    modal.classList.remove('hidden');
+
+    if (editId) {
+      const c = this.getClient(editId);
+      document.getElementById('modal-client-title').textContent = 'Modifier la Fiche Client';
+      document.getElementById('mc-name').value = c.name || '';
+      document.getElementById('mc-sub').value = c.subType || 'res19';
+      document.getElementById('mc-phone').value = c.phone || '';
+      document.getElementById('mc-addr').value = c.address || '';
+      document.getElementById('mc-cp').value = c.cp || '';
+      document.getElementById('mc-city').value = c.city || '';
+      document.getElementById('mc-email').value = c.email || '';
+      delBtn.classList.remove('hidden');
+    } else {
+      document.getElementById('modal-client-title').textContent = 'Nouveau Client / Carnet de Santé';
+      document.getElementById('mc-name').value = '';
+      document.getElementById('mc-sub').value = 'res19';
+      document.getElementById('mc-phone').value = '';
+      document.getElementById('mc-addr').value = '';
+      document.getElementById('mc-cp').value = '68680';
+      document.getElementById('mc-city').value = 'Kembs';
+      document.getElementById('mc-email').value = '';
+      delBtn.classList.add('hidden');
+    }
+    this.previewModalZone();
+  },
+
+  closeClientModal() {
+    document.getElementById('modal-client').classList.add('hidden');
+  },
+
+  previewModalZone() {
+    const cp = document.getElementById('mc-cp').value.trim();
+    const z = getZoneFromCP(cp);
+    const box = document.getElementById('mc-zone-preview');
+    box.textContent = `📍 ${z.label} — Forfait Arrivée : ${z.ttc} € TTC (${z.ht} € HT)`;
+  },
+
+  saveClientFromModal() {
+    const name = document.getElementById('mc-name').value.trim() || 'Client Sans Nom';
+    const subType = document.getElementById('mc-sub').value;
+    const phone = document.getElementById('mc-phone').value.trim();
+    const address = document.getElementById('mc-addr').value.trim();
+    const cp = document.getElementById('mc-cp').value.trim();
+    const city = document.getElementById('mc-city').value.trim();
+    const email = document.getElementById('mc-email').value.trim();
+
+    if (this.editingClientId) {
+      const c = this.getClient(this.editingClientId);
+      if (c) {
+        Object.assign(c, { name, subType, phone, address, cp, city, email, updatedAt: Date.now() });
+      }
+      this.persist();
+      this.closeClientModal();
+      this.renderClientHeader();
+      this.renderClientList();
+    } else {
+      const newClient = {
+        id: 'cli_' + Date.now(),
+        name, subType, phone, address, cp, city, email,
+        subCounters: { v1: false, v2: false, mo30Used: false },
+        refs: {},
+        customEquip: [],
+        rooms: createDefaultRooms(),
+        curRoomId: 'p_serr',
+        legal: { keepParts: false, idVerified: false, urgentWaiver: false },
+        quoteCfg: { travelMode: subType === 'ponctuel' ? 'auto' : 'free', tvaRate: 10, saturday: false, nightSun: false, deduct30m: false },
+        sig: '',
+        sigDate: '',
+        updatedAt: Date.now()
+      };
+      this.clients.unshift(newClient);
+      this.persist();
+      this.closeClientModal();
+      this.openClientRecord(newClient.id);
+    }
+  },
+
+  deleteCurrentClient() {
+    if (!this.editingClientId) return;
+    const c = this.getClient(this.editingClientId);
+    this.closeClientModal();
+    this.askConfirm(`Supprimer définitivement « ${c?.name} » ?`, 'Le carnet de santé, les références et les photos de ce client seront effacés.', () => {
+      this.clients = this.clients.filter(x => x.id !== this.editingClientId);
+      this.persist();
+      this.showClientList();
+    });
+  },
+
+  // ================= CUSTOM CONFIRM MODAL =================
+  askConfirm(title, msg, onConfirm) {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-msg').textContent = msg;
+    const modal = document.getElementById('modal-confirm');
+    modal.classList.remove('hidden');
+    const btn = document.getElementById('confirm-ok-btn');
+    btn.onclick = () => {
+      modal.classList.add('hidden');
+      if (onConfirm) onConfirm();
+    };
+  },
+
+  closeConfirm() {
+    document.getElementById('modal-confirm').classList.add('hidden');
+  },
+
+  // ================= BACKUP EXPORT / IMPORT JSON =================
+  exportBackup() {
+    const dataStr = JSON.stringify({
+      company: 'SASU LE COUP DE MAIN SERVICES - JULIEN COHEN',
+      exportedAt: new Date().toISOString(),
+      customLogo: this.customLogo || '',
+      clients: this.clients
+    }, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sauvegarde-lecoupdemain-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  importBackup(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const fr = new FileReader();
+    fr.onload = () => {
+      try {
+        const parsed = JSON.parse(fr.result);
+        const importedClients = Array.isArray(parsed) ? parsed : parsed.clients;
+        if (parsed.customLogo) {
+          this.customLogo = parsed.customLogo;
+          this.applyCustomLogoUI();
+        }
+        if (Array.isArray(importedClients)) {
+          this.clients = importedClients;
+          this.persist();
+          this.showClientList();
+        }
+      } catch (e) {}
+    };
+    fr.readAsText(file);
+  }
+};
+
+window.addEventListener('DOMContentLoaded', () => app.init());
+</script>
+</body>
+</html>
